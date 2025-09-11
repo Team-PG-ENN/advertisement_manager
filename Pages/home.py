@@ -3,7 +3,7 @@ import datetime
 from pages.edit_event import show_edit_event_page
 import requests
 from utils.api import base_url
-
+from functools import partial
 
 
 # {'company': 'Mest Africa', 'verified': True, 'logo': 'https://tse4.mm.bing.net/th/id/OIP.pslKeE6ElqR_o2DBg6JaNwAAAA?r=0&cb=ucfimg2&pid=ImgDet&ucfimg=1&w=150&h=150&c=7&dpr=1.5&o=7&rm=3', 'title': 'Software Development Trainee', 'location': 'Accra, Ghana', 'type': 'Hybrid', 'date_posted': '4 hours ago', 'status': 'Not applied', 'description': 'Mest Africa is hiring recent graduates from their program. They are looking for about 25 web development trainees for a hybrid role.', 'skills': ['Python', 'JavaScript', 'Django'], 'id': 1},
@@ -17,8 +17,7 @@ from utils.api import base_url
 
 def show_home_page():
     response = requests.get(f"{base_url}/view_job")
-    for advert in response.json():
-        print(advert)
+    json_data = response.json()
     # --- Hero Section (your existing content) ---
     # Set up the main page with a full-screen layout and some padding.
     with ui.column().classes('w-screen h-screen items-center'):
@@ -56,14 +55,14 @@ def show_home_page():
                         ui.label(term).classes('text-sm text-gray-700 font-medium px-2 py-1 bg-gray-100 rounded-full cursor-pointer hover:bg-gray-200')
 
 
-            # # --- Right Side: Image Container ---
-            # # A card container for the image, giving it a clean, modern look.
-            # with ui.card().classes('w-full md:w-1/2 h-[250px] md:h-[400px] shadow-lg rounded-2xl overflow-hidden relative bg-green-900'):
-            #     # Embedded HTML with the image.
-            #     ui.html('''
-            #     <img src="https://placehold.co/600x400/004c00/ffffff?text=Illustration+Placeholder" 
-            #          class="w-full h-full object-cover">
-            #     ''')
+            # --- Right Side: Image Container ---
+            # A card container for the image, giving it a clean, modern look.
+            with ui.card().classes('w-full md:w-1/2 h-[250px] md:h-[400px] shadow-lg rounded-2xl overflow-hidden relative bg-green-900'):
+                # Embedded HTML with the image.
+                ui.html('''
+                <img src="https://placehold.co/600x400/004c00/ffffff?text=Illustration+Placeholder" 
+                     class="w-full h-full object-cover">
+                ''')
     
 
 
@@ -74,45 +73,45 @@ def show_home_page():
             ui.label('Latest Job Opportunities').classes('text-2xl font-bold text-gray-800 mb-6')
             
             # A list of advertisement data
-            advertisements = []
+            advertisements = json_data["adverts"]
 
             # Function to handle button clicks and navigate
             def view_details(job_id):
-                ui.navigate.to('/view_event/')
+                ui.navigate.to(f'/view_event?id={job_id}')
 
             # Loop to create each job advertisement card
             for ad in advertisements:
                 with ui.card().classes('w-full my-2 p-2 shadow-md rounded-lg border-l-4 border-orange-500 hover:bg-gray-50 transition-colors duration-200 cursor-pointer flex-row items-center'):
                     # Company Logo
-                    ui.image(ad['logo']).classes('w-12 h-12 rounded-full border border-gray-300 object-contain flex-shrink-0')
+                    # ui.image(ad['logo']).classes('w-12 h-12 rounded-full border border-gray-300 object-contain flex-shrink-0')
                     
                     # Middle section with job details
                     with ui.column().classes('flex-grow px-4'):
                         with ui.row().classes('items-center gap-2'):
-                            ui.label(ad['title']).classes('text-lg font-bold')
-                            if ad['verified']:
-                                ui.tooltip('Verified Partner')
-                                ui.icon('verified').classes('text-blue-500 text-sm')
-                                ui.label('Verified').classes('text-blue-500 text-sm')
+                            ui.label(ad['Title']).classes('text-lg font-bold')
+                            # if ad['verified']:
+                            #     ui.tooltip('Verified Partner')
+                            #     ui.icon('verified').classes('text-blue-500 text-sm')
+                            #     ui.label('Verified').classes('text-blue-500 text-sm')
                         
                         # Tightly packed company, location, and date
-                        with ui.row().classes('items-center text-sm text-gray-600 space-x-1'):
-                            ui.label(ad['company']).classes('font-semibold')
-                            ui.label(f'• {ad["location"]}')
-                            ui.label(f'• {ad["type"]}')
-                            ui.label(f'• {ad["date_posted"]}').classes('text-xs text-gray-500')
+                        # with ui.row().classes('items-center text-sm text-gray-600 space-x-1'):
+                            # ui.label(ad['company']).classes('font-semibold')
+                            # ui.label(f'• {ad["location"]}')
+                            # ui.label(f'• {ad["type"]}')
+                            # ui.label(f'• {ad["date_posted"]}').classes('text-xs text-gray-500')
                         
-                        ui.label(ad['description']).classes('text-sm text-gray-700 mt-1')
+                        ui.label(ad['Description']).classes('text-sm text-gray-700 mt-1')
 
                         # Skills list
-                        with ui.row().classes('mt-2 flex-wrap gap-1'):
-                            for skill in ad['skills']:
-                                ui.badge(skill).classes('bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded-full')
+                        # with ui.row().classes('mt-2 flex-wrap gap-1'):
+                        #     for skill in ad['skills']:
+                        #         ui.badge(skill).classes('bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded-full')
                         
                     # View Details button to the right, with bookmark icon
                     with ui.column().classes('flex-shrink-0 items-center gap-2'):
                         ui.icon('bookmark_border').classes('text-gray-500 text-xl cursor-pointer')
-                        ui.button('View', on_click=lambda id=ad['id']: view_details(id)).classes('bg-orange-500 hover:bg-orange-600 text-white font-bold')
+                        ui.button('View', on_click=lambda id=ad['_id']: view_details(id)).classes('bg-orange-500 hover:bg-orange-600 text-white font-bold')
 
         # Filter and search sidebar
         with ui.column().classes('w-full lg:w-1/3 xl:w-1/4 mt-6 lg:mt-0 p-4 bg-gray-50 rounded-lg shadow-sm'):

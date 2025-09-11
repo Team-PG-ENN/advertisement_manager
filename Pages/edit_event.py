@@ -1,6 +1,6 @@
 # edit_event.py
 from nicegui import ui
-from Pages.add_event import events
+from pages.add_event import events
 
 
 def update_event(event_id, title, desc, category, price):

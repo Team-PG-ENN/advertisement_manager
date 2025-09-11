@@ -19,7 +19,6 @@ MEST_ADVERTISEMENTS = {
 }
 
 # The main page for the MEST Africa vendor dashboard
-@ui.page('/vendor')
 def vendor_dashboard_page():
     # --- Header Section ---
     with ui.header().classes('items-center justify-between'):
@@ -67,7 +66,7 @@ def vendor_dashboard_page():
                 
                 # Edit and Delete buttons
                 with ui.row().classes('w-full mt-4 justify-end gap-2'):
+                    ui.button('View', on_click=lambda: ui.navigate.to('/edit_event')).classes('bg-blue-500 hover:bg-blue-600 text-white font-bold')
                     ui.button('Edit', on_click=lambda: ui.navigate.to('/edit_event')).classes('bg-blue-500 hover:bg-blue-600 text-white font-bold')
                     ui.button('Delete', on_click=lambda: ui.notify('Job advertisement deleted.', type='positive')).classes('bg-red-500 hover:bg-red-600 text-white font-bold')
-
-ui.run()
+                    

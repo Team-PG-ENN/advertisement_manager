@@ -1,4 +1,6 @@
 from nicegui import ui
+import requests
+from utils.api import base_url
 
 ADVERTISEMENTS = {
     1: {
@@ -73,17 +75,17 @@ ADVERTISEMENTS = {
 
 # The page definition for viewing job details
 
-def show_view_event_page(job_id: str):
+def show_view_event_page(job_id):
     """
     Displays the detailed information for a specific job advertisement.
     The job_id is extracted from the URL.
     """
+    response = requests.get(f"{base_url}/find_job/{job_id}")
+    json_data = response.json()
+    print(json_data)
     # Convert job_id from string to int
-    try:
-        job_id = int(job_id)
-        job_ad = ADVERTISEMENTS.get(job_id)
-    except (ValueError, TypeError):
-        job_ad = None
+    job_ad = json_data["advert"]
+
 
     # Header with home link
     with ui.header().classes('items-center justify-between'):
@@ -99,14 +101,14 @@ def show_view_event_page(job_id: str):
             with ui.card().classes('w-full max-w-4xl p-6 shadow-xl rounded-lg bg-white'):
                 # Header section
                 with ui.row().classes('w-full items-center gap-4 border-b pb-4 mb-4'):
-                    ui.image(job_ad['logo']).classes('w-20 h-20 rounded-full border border-gray-300 object-contain')
+                    # ui.image(job_ad['flyer']).classes('w-20 h-20 rounded-full border border-gray-300 object-contain')
                     with ui.column().classes('flex-grow'):
                         with ui.row().classes('items-center gap-2'):
-                            ui.label(job_ad['title']).classes('text-2xl font-bold text-gray-800')
-                            if job_ad['verified']:
-                                ui.tooltip('Verified Partner')
-                                ui.icon('verified').classes('text-blue-500')
-                        ui.label(job_ad['company']).classes('text-xl text-gray-600')
+                            ui.label(job_ad['Title']).classes('text-2xl font-bold text-gray-800')
+                        #     if job_ad['verified']:
+                        #         ui.tooltip('Verified Partner')
+                        #         ui.icon('verified').classes('text-blue-500')
+                        # ui.label(job_ad['company']).classes('text-xl text-gray-600')
 
                 # Main content section with detailed information
                 with ui.column().classes('w-full'):
@@ -114,23 +116,23 @@ def show_view_event_page(job_id: str):
                     with ui.row().classes('w-full flex-wrap gap-x-6 gap-y-2 mb-4'):
                         with ui.column().classes('flex-grow'):
                             ui.label('Location').classes('text-sm font-semibold text-gray-500')
-                            ui.label(job_ad['location']).classes('text-lg')
-                        with ui.column().classes('flex-grow'):
-                            ui.label('Job Type').classes('text-sm font-semibold text-gray-500')
-                            ui.label(job_ad['type']).classes('text-lg')
-                        with ui.column().classes('flex-grow'):
-                            ui.label('Salary').classes('text-sm font-semibold text-gray-500')
-                            ui.label(job_ad['salary']).classes('text-lg text-green-600 font-bold')
+                            ui.label(job_ad['Title']).classes('text-lg')
+                        # with ui.column().classes('flex-grow'):
+                        #     ui.label('Job Type').classes('text-sm font-semibold text-gray-500')
+                        #     ui.label(job_ad['type']).classes('text-lg')
+                        # with ui.column().classes('flex-grow'):
+                        #     ui.label('Salary').classes('text-sm font-semibold text-gray-500')
+                        #     ui.label(job_ad['salary']).classes('text-lg text-green-600 font-bold')
                     
                     # Detailed description
                     ui.label('Job Description').classes('text-lg font-bold mt-4 mb-2')
-                    ui.label(job_ad['description']).classes('text-base text-gray-700 leading-relaxed')
+                    ui.label(job_ad['Description']).classes('text-base text-gray-700 leading-relaxed')
 
                     # Skills section
-                    ui.label('Skills').classes('text-lg font-bold mt-4 mb-2')
-                    with ui.row().classes('w-full flex-wrap gap-2'):
-                        for skill in job_ad['skills']:
-                            ui.badge(skill).classes('bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium')
+                    # ui.label('Skills').classes('text-lg font-bold mt-4 mb-2')
+                    # with ui.row().classes('w-full flex-wrap gap-2'):
+                    #     for skill in job_ad['skills']:
+                    #         ui.badge(skill).classes('bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium')
                     
                     # Application selector
                     def handle_application_choice(e):

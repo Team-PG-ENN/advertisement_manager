@@ -4,6 +4,7 @@ from pages.home import show_home_page
 from pages.add_event import show_add_event_page
 from pages.edit_event import show_edit_event_page
 from pages.view_event import show_view_event_page
+from pages.vendor_page import vendor_dashboard_page
 
 
 ui.add_head_html('''
@@ -52,7 +53,7 @@ ui.add_head_html('''
 def home_page():
     show_header()
     show_home_page()
-    show_footer()
+    
 
 @ui.page("/add_event")
 def add_event_page():
@@ -65,14 +66,17 @@ def add_event_page():
 #     show_edit_event_page()
 
 @ui.page("/view_event")
-def view_event_page():
-    show_view_event_page(1)
+def view_event_page(id=""):
+    show_view_event_page(id)
 
 # @ui.page("/edit_event/{event_id}")
 # def edit_event_page(event_id: int):
 #     show_header()
 #     show_edit_event_page(event_id)
 
+@ui.page('/vendor')
+def vendor_page():
+    vendor_dashboard_page()
 
 
 
