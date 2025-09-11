@@ -12,7 +12,19 @@ from functools import partial
 #                 {'company': 'Azubi Africa', 'verified': True, 'logo': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-o3F9t3p3g_9f_1-Q2wJ-4-f_5k-5u5i-g&s', 'title': 'Digital Marketing Specialist', 'location': 'Takoradi, Ghana', 'type': 'Hybrid', 'date_posted': '2025-09-05', 'status': 'Not applied', 'description': 'Join our team to manage digital campaigns and SEO strategies. Gain hands-on experience in a fast-paced environment.', 'skills': ['SEO', 'SEM', 'Social Media Marketing'], 'id': 4},
 #                 {'company': 'TechCorp Solutions', 'verified': False, 'logo': 'https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg', 'title': 'UX/UI Design Intern', 'location': 'Remote', 'type': 'Remote', 'date_posted': '2025-09-04', 'status': 'Not applied', 'description': 'Trainee role in user experience and interface design. Learn industry-standard tools and design principles.', 'skills': ['Figma', 'Sketch', 'User Research'], 'id': 5},
 #                 {'company': 'DataHub Ghana', 'verified': True, 'logo': 'https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg', 'title': 'Junior Cybersecurity Analyst', 'location': 'Accra, Ghana', 'type': 'Full-time', 'date_posted': '2025-09-03', 'status': 'Applied', 'description': 'Entry-level position in network security and threat analysis. Opportunity to work with certified professionals.', 'skills': ['Network Security', 'Threat Analysis', 'Cyber Forensics'], 'id': 6},
-            
+
+
+TECH_CATEGORIES = [
+    'All Categories',
+    'Web Development',
+    'Data Science',
+    'Cybersecurity',
+    'Digital Marketing',
+    'Graphic Design',
+    'Mobile Development',
+    'Cloud Computing',
+    'AI/Machine Learning'
+]
 
 
 def show_home_page():
@@ -20,49 +32,63 @@ def show_home_page():
     json_data = response.json()
     # --- Hero Section (your existing content) ---
     # Set up the main page with a full-screen layout and some padding.
+
+    # --- Main Layout ---
     with ui.column().classes('w-screen h-screen items-center'):
 
-        # --- Hero Section ---
-        # A responsive row to hold the text and the video.
-        # It stacks them as a column on small screens (flex-col) and
-        # changes to a row on medium screens and up (md:flex-row).
-        with ui.row().classes('w-full flex-row items-center justify-between mt-10 px-6 md:px-16 gap-8 max-w-screen-xl mx-auto'):
-            
-            # --- Left Side: Text and Headings with Search Bar ---
-            with ui.column().classes('w-full md:w-1/2 space-y-4 text-center md:text-left'):
-                ui.label("Discover the World’s Top Designers").classes(
-                    'text-3xl md:text-5xl font-extrabold leading-tight text-gray-800'
-                )
-                ui.label(
-                    "Explore work from the most talented and accomplished designers ready to take on your next project."
-                ).classes('text-gray-600 text-base md:text-lg')
-                
-                # Tabbed navigation
-                with ui.row().classes('mt-6 gap-2'):
-                    ui.button('Shots', icon='bolt').classes('rounded-full bg-black text-white px-6 py-2')
-                    ui.button('Designers', icon='people').classes('rounded-full bg-gray-200 text-gray-800 px-6 py-2')
-                    ui.button('Services', icon='handyman').classes('rounded-full bg-gray-200 text-gray-800 px-6 py-2')
+       # --- Hero Section in Grid ---
+        with ui.row().classes(
+            'w-full max-w-screen-xl mx-auto mt-10 px-4 md:px-16'
+        ):
+            with ui.element('div').classes(
+                'grid grid-cols-1 md:grid-cols-2 gap-8 w-full items-center'
+            ):
 
-                # Search bar
-                with ui.row().classes('w-full items-center mt-4'):
-                    ui.input(placeholder='What type of design are you interested in?').classes('flex-grow').props('rounded outlined')
-                    ui.button(icon='search').classes('bg-pink-500 text-white rounded-full p-3')
-                
-                # Popular searches
-                with ui.row().classes('w-full items-center mt-2'):
-                    ui.label('Popular:').classes('text-gray-500 text-sm font-semibold')
-                    for term in ['dashboard', 'landing page', 'e-commerce', 'logo']:
-                        ui.label(term).classes('text-sm text-gray-700 font-medium px-2 py-1 bg-gray-100 rounded-full cursor-pointer hover:bg-gray-200')
+                # --- Left Column (Text, Search, Tabs) ---
+                with ui.column().classes('space-y-4 text-center md:text-left'):
+                    ui.label("Discover the World’s Top Tech Talents").classes(
+                        'text-2xl md:text-5xl font-extrabold leading-tight text-gray-800'
+                    )
+                    ui.label(
+                        "Explore opportunities with the most skilled tech professionals and discover job openings tailored to your next big project."
+                    ).classes('text-gray-600 text-sm md:text-lg')
 
+                    # Tabs
+                    with ui.row().classes('mt-6 gap-2 flex-wrap justify-center md:justify-start'):
+                        ui.button('All jobs', icon='work').classes(
+                            'rounded-full text-white px-4 md:px-6 py-2 text-sm md:text-base'
+                        )
+                        ui.button('Recent Jobs', icon='business_center').classes(
+                            'rounded-full bg-pink-500 text-white px-4 md:px-6 py-2 text-sm md:text-base'
+                        )
+                        ui.button('Companies', icon='domain').classes(
+                            'rounded-full bg-gray-200 text-gray-700 px-4 md:px-6 py-2 text-sm md:text-base'
+                        )
 
-            # --- Right Side: Image Container ---
-            # A card container for the image, giving it a clean, modern look.
-            with ui.card().classes('w-full md:w-1/2 h-[250px] md:h-[400px] shadow-lg rounded-2xl overflow-hidden relative bg-green-900'):
-                # Embedded HTML with the image.
-                ui.html('''
-                <img src="https://placehold.co/600x400/004c00/ffffff?text=Illustration+Placeholder" 
-                     class="w-full h-full object-cover">
-                ''')
+                    # Search bar
+                    with ui.row().classes('w-full items-center mt-4 gap-2 flex-wrap'):
+                        ui.input(
+                            placeholder='Search for jobs...'
+                        ).classes('flex-grow min-w-[180px]').props('rounded outlined')
+                        ui.button(icon='search').classes('bg-pink-500 text-white rounded-full p-3')
+
+                    # Popular searches
+                    with ui.row().classes('w-full items-center mt-2 flex-wrap gap-2 justify-center md:justify-start'):
+                        ui.label('Popular:').classes('text-gray-500 text-sm font-semibold')
+                        for term in ['Web Development', 'UI/UX', 'Data Analytics', 'Digital Marketing']:
+                            ui.label(term).classes(
+                                'text-sm text-gray-700 font-medium px-2 py-1 bg-gray-100 rounded-full cursor-pointer hover:bg-gray-200'
+                            )
+
+                # --- Right Column (Image) ---
+                with ui.card().classes(
+                    'w-full aspect-video shadow-lg rounded-2xl overflow-hidden relative bg-orange-300'
+                ):
+                    ui.html('''
+                        <img src="https://placehold.co/600x400/004c00/ffffff?text=Illustration+Placeholder" 
+                            class="w-full h-full object-cover">
+                    ''')
+
     
 
 
@@ -272,9 +298,9 @@ def show_home_page():
                         </div>
 
                         <div class="story-container">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="story-image">
+                            <img src="https://tse4.mm.bing.net/th/id/OIP.pslKeE6ElqR_o2DBg6JaNwAAAA?r=0&cb=ucfimg2&pid=ImgDet&ucfimg=1&w=150&h=150&c=7&dpr=1.5&o=7&rm=3" class="story-image">
                             <div class="story-text">"I transitioned into Data Analytics with ease thanks to the opportunities posted here."</div>
-                            <div class="story-name">Bob Smith</div>
+                            <div class="story-name"></div>
                         </div>
 
                         <div class="story-container">
