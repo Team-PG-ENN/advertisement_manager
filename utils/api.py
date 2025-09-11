@@ -1,0 +1,1 @@
+base_url = "https://advertisement-management-platform-api.onrender.com"

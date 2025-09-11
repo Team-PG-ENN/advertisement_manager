@@ -1,31 +1,79 @@
 from nicegui import ui,app
 from components.header import show_header
-from Pages.home import show_home_page
-from Pages.add_event import show_add_event_page
-from Pages.edit_event import show_edit_event_page
-from Pages.view_event import show_view_event_page
+from pages.home import show_home_page
+from pages.add_event import show_add_event_page
+from pages.edit_event import show_edit_event_page
+from pages.view_event import show_view_event_page
 
+
+ui.add_head_html('''
+<style>
+.floating-blink-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    animation: blink 1.5s infinite;
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 14px 24px;
+    border-radius: 9999px;
+    box-shadow: 0px 4px 15px rgba(37, 99, 235, 0.6);
+    transition: transform 0.2s, box-shadow 0.2s;
+    z-index: 9999;
+}
+.floating-blink-button:hover {
+    transform: scale(1.08);
+    box-shadow: 0px 6px 18px rgba(37, 99, 235, 0.8);
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+</style>
+''')
+
+# Add the CSS for the blinking effect at the very top
+ui.add_head_html('''
+    <style>
+    @keyframes blink {
+      0%, 100% { background-color: #f97316 !important; } /* Orange 500 */
+      50% { background-color: transparent !important; }
+    }
+    .blinking-button {
+      animation: blink 2s infinite !important;
+    }
+    </style>
+''')
 
 
 @ui.page("/")
 def home_page():
     show_header()
     show_home_page()
+    show_footer()
 
 @ui.page("/add_event")
 def add_event_page():
     show_header()
     show_add_event_page()
 
-@ui.page("/edit_event")
-def edit_event_page():
-    show_header()
-    show_edit_event_page()
+# @ui.page("/edit_event")
+# def edit_event_page():
+#     show_header()
+#     show_edit_event_page()
 
 @ui.page("/view_event")
 def view_event_page():
-    show_header()
-    show_view_event_page()
+    show_view_event_page(1)
+
+# @ui.page("/edit_event/{event_id}")
+# def edit_event_page(event_id: int):
+#     show_header()
+#     show_edit_event_page(event_id)
+
+
 
 
 ui.run()
