@@ -9,7 +9,7 @@ def show_header():
         # LEFT: Logo
         ui.label('Skillbridge').classes('text-2xl font-bold tracking-wide')
 
-        # CENTER: Explore Button
+        # CENTER: Explore
         with ui.row().classes('absolute left-1/2 transform -translate-x-1/2'):
             with ui.button('Explore', icon='expand_more').classes('bg-orange text-orange-500 font-semibold'):
                 with ui.menu():
