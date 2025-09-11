@@ -19,7 +19,7 @@ MEST_ADVERTISEMENTS = {
 }
 
 # The main page for the MEST Africa vendor dashboard
-@ui.page('/')
+@ui.page('/vendor')
 def vendor_dashboard_page():
     # --- Header Section ---
     with ui.header().classes('items-center justify-between'):
