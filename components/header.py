@@ -31,16 +31,28 @@ def show_login_modal():
     """Show login modal with user type selection"""
     with ui.dialog().props('persistent') as dialog, ui.card().classes('p-6'):
         ui.label('Choose Login Type').classes('text-h5 mb-4 text-center')
-        
-        with ui.column().classes('gap-4 item' \
-        's-center'):
-            ui.button('Login as Job Seeker', 
-                     on_click=lambda: login_as_user(dialog)).classes('primary-button w-full')
-            ui.button('Login as Company/Vendor', 
-                     on_click=lambda: login_as_vendor(dialog)).classes('nav-button w-full')
-            ui.button('Cancel', on_click=dialog.close).classes('nav-button w-full')
-    
+
+        with ui.column().classes('gap-4 items-center'):
+            # Login as Job Seeker → go to homepage (/)
+            ui.button(
+                'Login as Job Seeker',
+                on_click=lambda: (dialog.close(), ui.navigate.to('/'))
+            ).classes('primary-button w-full')
+
+            # Login as Company/Vendor → go to /vendor
+            ui.button(
+                'Login as Company/Vendor',
+                on_click=lambda: (dialog.close(), ui.navigate.to('/vendor'))
+            ).classes('nav-button w-full')
+
+            # Cancel → just close the dialog
+            ui.button(
+                'Cancel',
+                on_click=dialog.close
+            ).classes('nav-button w-full')
+
     dialog.open()
+
 
 def login_as_user(dialog):
     """Navigate to user dashboard"""
