@@ -4,65 +4,50 @@ from pages.edit_event import show_edit_event_page
 
 def show_home_page():
     # --- Hero Section (your existing content) ---
-    with ui.row().classes('w-full flex-col md:flex-row items-center justify-between mt-10 px-6 md:px-16 gap-8'):
-    # --- Left Side: Text ---
-        with ui.column().classes('w-full md:w-1/2 space-y-4 text-center md:text-left'):
-            ui.label("Discover the World’s Top Digital Talent").classes(
-                'text-3xl md:text-5xl font-extrabold leading-tight'
-            )
-            ui.label(
-                "Explore opportunities and connect with companies looking for skilled professionals in "
-                "web development, data science, digital marketing, cybersecurity, and more."
-            ).classes('text-gray-600 text-base md:text-lg')
+    # Set up the main page with a full-screen layout and some padding.
+    with ui.column().classes('w-screen h-screen items-center'):
 
-        # --- Right Side: Video Slideshow ---
-        with ui.card().classes('w-full md:w-1/2 h-[250px] md:h-[400px] shadow-lg rounded-2xl overflow-hidden relative'):
-            ui.html('''
-            <style>
-            .video-slideshow {
-                position: relative;
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-            }
-            .video-slideshow video {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                opacity: 0;
-                animation: fade 18s infinite;
-            }
-            .video-slideshow video:nth-child(1) { animation-delay: 0s; }
-            .video-slideshow video:nth-child(2) { animation-delay: 6s; }
-            .video-slideshow video:nth-child(3) { animation-delay: 12s; }
+        # --- Hero Section ---
+        # A responsive row to hold the text and the video.
+        # It stacks them as a column on small screens (flex-col) and
+        # changes to a row on medium screens and up (md:flex-row).
+        with ui.row().classes('w-full flex-row items-center justify-between mt-10 px-6 md:px-16 gap-8 max-w-screen-xl mx-auto'):
+            
+            # --- Left Side: Text and Headings with Search Bar ---
+            with ui.column().classes('w-full md:w-1/2 space-y-4 text-center md:text-left'):
+                ui.label("Discover the World’s Top Designers").classes(
+                    'text-3xl md:text-5xl font-extrabold leading-tight text-gray-800'
+                )
+                ui.label(
+                    "Explore work from the most talented and accomplished designers ready to take on your next project."
+                ).classes('text-gray-600 text-base md:text-lg')
+                
+                # Tabbed navigation
+                with ui.row().classes('mt-6 gap-2'):
+                    ui.button('Shots', icon='bolt').classes('rounded-full bg-black text-white px-6 py-2')
+                    ui.button('Designers', icon='people').classes('rounded-full bg-gray-200 text-gray-800 px-6 py-2')
+                    ui.button('Services', icon='handyman').classes('rounded-full bg-gray-200 text-gray-800 px-6 py-2')
 
-            @keyframes fade {
-                0% { opacity: 0; }
-                10% { opacity: 1; }
-                30% { opacity: 1; }
-                40% { opacity: 0; }
-                100% { opacity: 0; }
-            }
-            </style>
+                # Search bar
+                with ui.row().classes('w-full items-center mt-4'):
+                    ui.input(placeholder='What type of design are you interested in?').classes('flex-grow').props('rounded outlined')
+                    ui.button(icon='search').classes('bg-pink-500 text-white rounded-full p-3')
+                
+                # Popular searches
+                with ui.row().classes('w-full items-center mt-2'):
+                    ui.label('Popular:').classes('text-gray-500 text-sm font-semibold')
+                    for term in ['dashboard', 'landing page', 'e-commerce', 'logo']:
+                        ui.label(term).classes('text-sm text-gray-700 font-medium px-2 py-1 bg-gray-100 rounded-full cursor-pointer hover:bg-gray-200')
 
-            <div class="video-slideshow">
-                <video autoplay muted loop playsinline>
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-programmers-working-on-code-4012-large.mp4" type="video/mp4">
-                </video>
-                <video autoplay muted loop playsinline>
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-software-developer-writing-code-3999-large.mp4" type="video/mp4">
-                </video>
-                <video autoplay muted loop playsinline>
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-digital-animation-of-numbers-93271-large.mp4" type="video/mp4">
-                </video>
-            </div>
-            ''')
 
-    """User homepage: advertisements, categories, companies, success stories, footer."""
-
+            # # --- Right Side: Image Container ---
+            # # A card container for the image, giving it a clean, modern look.
+            # with ui.card().classes('w-full md:w-1/2 h-[250px] md:h-[400px] shadow-lg rounded-2xl overflow-hidden relative bg-green-900'):
+            #     # Embedded HTML with the image.
+            #     ui.html('''
+            #     <img src="https://placehold.co/600x400/004c00/ffffff?text=Illustration+Placeholder" 
+            #          class="w-full h-full object-cover">
+            #     ''')
     
 
 
@@ -360,5 +345,5 @@ def show_home_page():
 
 
     # # Footer
-    # with ui.footer().classes('bg-gray-800 text-white p-6 mt-10 text-center'):
-    #     ui.label("© 2025 SkillBridge - Connecting Digital Skills with Opportunities").classes("tetx-center")
+    with ui.element("div").classes('bg-gray-800 w-screen text-white p-6 mt-10 text-center'):
+        ui.label("© 2025 SkillBridge - Connecting Digital Skills with Opportunities").classes("tetx-center")
