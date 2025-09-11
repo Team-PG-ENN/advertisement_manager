@@ -1,5 +1,6 @@
 from nicegui import ui
 import datetime
+from pages.edit_event import show_edit_event_page
 
 def show_home_page():
     # --- Hero Section (your existing content) ---
@@ -73,8 +74,8 @@ def show_home_page():
             
             # A list of advertisement data
             advertisements = [
-                {'company': 'Mest Africa', 'verified': True, 'logo': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRz-M84bN6-c22m_x9rEw83q4f-d_v-6e44XQ&s', 'title': 'Software Development Trainee', 'location': 'Accra, Ghana', 'type': 'Hybrid', 'date_posted': '4 hours ago', 'status': 'Not applied', 'description': 'Mest Africa is hiring recent graduates from their program. They are looking for about 25 web development trainees for a hybrid role.', 'skills': ['Python', 'JavaScript', 'Django'], 'id': 1},
-                {'company': 'Blossom Academy', 'verified': True, 'logo': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJ0x9y4J2k5g_2S1-B-bX7Q4D-J3k-1K7F-g&s', 'title': 'Data Science Fellowship', 'location': 'Kumasi, Ghana', 'type': 'On-site', 'date_posted': 'Yesterday', 'status': 'Not applied', 'description': 'A 6-month fellowship focused on practical data science projects and mentorship. Work with real-world datasets.', 'skills': ['Data Analysis', 'Machine Learning', 'SQL'], 'id': 2},
+                {'company': 'Mest Africa', 'verified': True, 'logo': 'https://tse4.mm.bing.net/th/id/OIP.pslKeE6ElqR_o2DBg6JaNwAAAA?r=0&cb=ucfimg2&pid=ImgDet&ucfimg=1&w=150&h=150&c=7&dpr=1.5&o=7&rm=3', 'title': 'Software Development Trainee', 'location': 'Accra, Ghana', 'type': 'Hybrid', 'date_posted': '4 hours ago', 'status': 'Not applied', 'description': 'Mest Africa is hiring recent graduates from their program. They are looking for about 25 web development trainees for a hybrid role.', 'skills': ['Python', 'JavaScript', 'Django'], 'id': 1},
+                {'company': 'Blossom Academy', 'verified': True, 'logo': 'https://media-exp1.licdn.com/dms/image/C510BAQE6OtVLMbT2jw/company-logo_200_200/0/1519875019395?e=2159024400&v=beta&t=Q2j-EypivTm118lDt88qU_JHaDJRFZ_hlR-D79sZV00', 'title': 'Data Science Fellowship', 'location': 'Kumasi, Ghana', 'type': 'On-site', 'date_posted': 'Yesterday', 'status': 'Not applied', 'description': 'A 6-month fellowship focused on practical data science projects and mentorship. Work with real-world datasets.', 'skills': ['Data Analysis', 'Machine Learning', 'SQL'], 'id': 2},
                 {'company': 'Soronko Academy', 'verified': True, 'logo': 'https://soronkoacademy.org/wp-content/uploads/2021/05/logo-color-1.png', 'title': 'Web Development Bootcamp', 'location': 'Accra, Ghana', 'type': 'Remote', 'date_posted': '3 days ago', 'status': 'Applied', 'description': 'Intensive bootcamp to become a full-stack web developer. Focus on MERN stack and agile methodologies.', 'skills': ['React', 'Node.js', 'MongoDB'], 'id': 3},
                 {'company': 'Azubi Africa', 'verified': True, 'logo': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-o3F9t3p3g_9f_1-Q2wJ-4-f_5k-5u5i-g&s', 'title': 'Digital Marketing Specialist', 'location': 'Takoradi, Ghana', 'type': 'Hybrid', 'date_posted': '2025-09-05', 'status': 'Not applied', 'description': 'Join our team to manage digital campaigns and SEO strategies. Gain hands-on experience in a fast-paced environment.', 'skills': ['SEO', 'SEM', 'Social Media Marketing'], 'id': 4},
                 {'company': 'TechCorp Solutions', 'verified': False, 'logo': 'https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg', 'title': 'UX/UI Design Intern', 'location': 'Remote', 'type': 'Remote', 'date_posted': '2025-09-04', 'status': 'Not applied', 'description': 'Trainee role in user experience and interface design. Learn industry-standard tools and design principles.', 'skills': ['Figma', 'Sketch', 'User Research'], 'id': 5},
@@ -83,7 +84,7 @@ def show_home_page():
 
             # Function to handle button clicks and navigate
             def view_details(job_id):
-                ui.navigate.to(f'/job/{job_id}')
+                ui.navigate.to('/view_event/')
 
             # Loop to create each job advertisement card
             for ad in advertisements:
@@ -150,20 +151,8 @@ def show_home_page():
             ui.button('Apply Filters').classes('w-full bg-orange-500 hover:bg-blue-600 text-white')
 
 
-    ui.add_body_html('''
-    <style>
-    @keyframes blink {
-      0%, 100% { background-color: #f97316; } /* Orange 500 */
-      50% { background-color: transparent; }
-    }
-    .blinking-button {
-      animation: blink 2s infinite;
-    }
-    </style>
-''')
-
     # The button is now positioned using `fixed`, `bottom-4`, and `right-4`
-    ui.button('Post a Job Advertisement!', on_click=lambda: ui.navigate.to('/post-ad')).classes('blinking-button text-white font-bold text-lg px-8 py-4 rounded-lg shadow-lg fixed bottom-4 right-4 z-10')
+    # ui.button('Post a Job Advertisement!', on_click=lambda: ui.navigate.to('/post-ad')).classes('blinking-button text-white font-bold text-lg px-8 py-4 rounded-lg shadow-lg fixed bottom-4 right-4 z-10')
 # # Define a new page for job details
 # @ui.page('/job/{job_id}')
 # def job_details_page(job_id: str):

@@ -34,6 +34,19 @@ ui.add_head_html('''
 </style>
 ''')
 
+# Add the CSS for the blinking effect at the very top
+ui.add_head_html('''
+    <style>
+    @keyframes blink {
+      0%, 100% { background-color: #f97316 !important; } /* Orange 500 */
+      50% { background-color: transparent !important; }
+    }
+    .blinking-button {
+      animation: blink 2s infinite !important;
+    }
+    </style>
+''')
+
 
 @ui.page("/")
 def home_page():
@@ -52,8 +65,7 @@ def edit_event_page():
 
 @ui.page("/view_event")
 def view_event_page():
-    show_header()
-    show_view_event_page()
+    show_view_event_page(1)
 
 
 ui.run()
