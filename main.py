@@ -52,20 +52,28 @@ ui.add_head_html('''
 def home_page():
     show_header()
     show_home_page()
+    show_footer()
 
 @ui.page("/add_event")
 def add_event_page():
     show_header()
     show_add_event_page()
 
-@ui.page("/edit_event")
-def edit_event_page():
-    show_header()
-    show_edit_event_page()
+# @ui.page("/edit_event")
+# def edit_event_page():
+#     show_header()
+#     show_edit_event_page()
 
 @ui.page("/view_event")
 def view_event_page():
     show_view_event_page(1)
+
+# @ui.page("/edit_event/{event_id}")
+# def edit_event_page(event_id: int):
+#     show_header()
+#     show_edit_event_page(event_id)
+
+
 
 
 ui.run()
