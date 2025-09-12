@@ -60,7 +60,7 @@ def vendor_dashboard_page():
                     ' hover:bg-green-600 text-white font-bold rounded px-4 md:px-6'
                 )
 
-    # --- Hero Section / Job Listings ---
+    # --- Hero Section / Job Listings ---ui.label(ad['company']).classes('font-semibold')
     # with ui.column().classes('w-full mt-12 px-4 md:px-12 lg:px-24 items-center'):
     #     ui.label('Your Job Advertisements').classes('text-3xl font-bold text-gray-800 mb-6')
         
@@ -123,7 +123,7 @@ def vendor_dashboard_page():
                         
                         # Tightly packed company, location, and date
                         with ui.row().classes('items-center text-sm text-gray-600 space-x-1'):
-                            ui.label(ad['company']).classes('font-semibold')
+                            
                             # ui.label(f'• {ad["location"]}')
                             # ui.label(f'• {ad["type"]}')
                             ui.label(f'• {ad["created_at"]}').classes('text-xs text-gray-500')

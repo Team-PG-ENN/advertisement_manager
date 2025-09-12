@@ -99,10 +99,10 @@ def show_view_event_page(job_id):
             with ui.card().classes('w-full max-w-4xl p-6 shadow-xl rounded-lg bg-white'):
                 # Header section
                 with ui.row().classes('w-full items-center gap-4 border-b pb-4 mb-4'):
-                    # ui.image(job_ad['flyer']).classes('w-20 h-20 rounded-full border border-gray-300 object-contain')
+                    ui.image(ad['image']).classes('w-20 h-20 rounded-full border border-gray-300 object-contain')
                     with ui.column().classes('flex-grow'):
                         with ui.row().classes('items-center gap-2'):
-                            ui.label(ad['Title']).classes('text-2xl font-bold text-gray-800')
+                            ui.label(ad['job_title']).classes('text-2xl font-bold text-gray-800')
                         #     if job_ad['verified']:
                         #         ui.tooltip('Verified Partner')
                         #         ui.icon('verified').classes('text-blue-500')
@@ -114,13 +114,13 @@ def show_view_event_page(job_id):
                     with ui.row().classes('w-full flex-wrap gap-x-6 gap-y-2 mb-4'):
                         with ui.column().classes('flex-grow'):
                             ui.label('Location').classes('text-sm font-semibold text-gray-500')
-                            ui.label(ad['Title']).classes('text-lg')
+                            ui.label(ad['job_title']).classes('text-lg')
                         # with ui.column().classes('flex-grow'):
                         #     ui.label('Job Type').classes('text-sm font-semibold text-gray-500')
                         #     ui.label(job_ad['type']).classes('text-lg')
                         # with ui.column().classes('flex-grow'):
-                        #     ui.label('Salary').classes('text-sm font-semibold text-gray-500')
-                        #     ui.label(job_ad['salary']).classes('text-lg text-green-600 font-bold')
+                            # ui.label('Salary').classes('text-sm font-semibold text-gray-500')
+                            # ui.label(ad['salary']).classes('text-lg text-green-600 font-bold')
                     
                     # Detailed description
                     ui.label('Job Description').classes('text-lg font-bold mt-4 mb-2')
