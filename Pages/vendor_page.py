@@ -4,6 +4,8 @@ import requests
 from utils.api import base_url
 from functools import partial
 
+
+
 # The job advertisement data for MEST Africa
 # In a real application, this would come from a database query
 MEST_ADVERTISEMENTS = {
@@ -108,40 +110,68 @@ def vendor_dashboard_page():
             for ad in advertisements:
                 with ui.card().classes('w-full my-2 p-2 shadow-md rounded-lg border-l-4 border-orange-500 hover:bg-gray-50 transition-colors duration-200 cursor-pointer flex-row items-center'):
                     # Company Logo
-                    # ui.image(ad['logo']).classes('w-12 h-12 rounded-full border border-gray-300 object-contain flex-shrink-0')
+                    ui.image(ad['image']).classes('w-12 h-12 rounded-full border border-gray-300 object-contain flex-shrink-0')
                     
                     # Middle section with job details
                     with ui.column().classes('flex-grow px-4'):
                         with ui.row().classes('items-center gap-2'):
-                            ui.label(ad['Title']).classes('text-lg font-bold')
+                            ui.label(ad['job_title']).classes('text-lg font-bold')
                             # if ad['verified']:
                             #     ui.tooltip('Verified Partner')
                             #     ui.icon('verified').classes('text-blue-500 text-sm')
                             #     ui.label('Verified').classes('text-blue-500 text-sm')
                         
                         # Tightly packed company, location, and date
-                        # with ui.row().classes('items-center text-sm text-gray-600 space-x-1'):
-                            # ui.label(ad['company']).classes('font-semibold')
+                        with ui.row().classes('items-center text-sm text-gray-600 space-x-1'):
+                            ui.label(ad['company']).classes('font-semibold')
                             # ui.label(f'• {ad["location"]}')
                             # ui.label(f'• {ad["type"]}')
-                            # ui.label(f'• {ad["date_posted"]}').classes('text-xs text-gray-500')
+                            ui.label(f'• {ad["created_at"]}').classes('text-xs text-gray-500')
                         
-                        ui.label(ad['Description']).classes('text-sm text-gray-700 mt-1')
+                        ui.label(ad['job_description']).classes('text-sm text-gray-700 mt-1')
 
                         # Skills list
-                        # with ui.row().classes('mt-2 flex-wrap gap-1'):
-                        #     for skill in ad['skills']:
-                        #         ui.badge(skill).classes('bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded-full')
+                        with ui.row().classes('mt-2 flex-wrap gap-1'):
+                            for skill in ad['skills']:
+                                ui.badge(skill).classes('bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded-full')
                         
-                    # View Details button to the right, with bookmark icon
-                    with ui.column().classes('flex-shrink-0 items-center gap-2'):
-                        ui.icon('bookmark_border').classes('text-gray-500 text-xl cursor-pointer')
-                        # ui.button('View', on_click=lambda id=ad['_id']: view_details(id)).classes('bg-orange-500 hover:bg-orange-600 text-white font-bold')
+                #     # View Details button to the right, with bookmark icon
+                #     with ui.column().classes('flex-shrink-0 items-center gap-2'):
+                #         ui.icon('bookmark_border').classes('text-gray-500 text-xl cursor-pointer')
+                #         # ui.button('View', on_click=lambda id=ad['_id']: view_details(id)).classes('bg-orange-500 hover:bg-orange-600 text-white font-bold')
+                # def confirm_delete(job_id):
+                #     """Open a confirmation dialog before deleting a job."""
+                #     with ui.dialog() as dialog, ui.card().classes('p-6'):
+                #         ui.label('Are you sure you want to delete this job?').classes('text-lg font-bold mb-4')
 
+                #         with ui.row().classes('gap-4 justify-end'):
+                #             ui.button('Cancel', on_click=dialog.close).props('color=grey')
+                #             ui.button('Yes, Delete', on_click=lambda: delete_job(job_id, dialog)).props('color=negative')
+
+
+                # def delete_job(job_id, dialog):
+                #     """Perform delete request and refresh UI after deletion."""
+                #     try:
+                #         response = requests.delete(f"{base_url}/delete_job/{job_id}")
+                #         if response.status_code == 200:
+                #             ui.notify('Job advertisement deleted successfully.', type='positive')
+                #             dialog.close()
+                #             # Refresh vendor and homepage listings
+                #             vendor_dashboard_page()
+                #         else:
+                #             ui.notify(f'Failed to delete job: {response.text}', type='negative')
+                #     except Exception as e:
+                #         ui.notify(f'Error: {e}', type='negative')
+
+                def delete_job(job_id):
+                    response = requests.delete(f"{base_url}/delete_job/{job_id}")
+                    if response.status_code == 200:
+                        ui.notify('Job advertisement deleted.', type='positive')
+                        ui.navigate.reload()
 
                 # Edit and Delete buttons
                 with ui.row().classes('w-full mt-1 justify-end gap-2'):
                     ui.button('View', on_click=lambda id=ad['_id']: view_details(id)).classes('bg-blue-500 hover:bg-blue-600 text-white font-bold')
                     ui.button('Edit', on_click=lambda: ui.navigate.to('/edit_event')).classes('bg-blue-500 hover:bg-blue-600 text-white font-bold')
-                    ui.button('Delete', color="red",on_click=lambda: ui.notify('Job advertisement deleted.', type='positive')).classes('bg-red-500 hover:bg-red-600 text-white font-bold')
+                    ui.button('Delete', color="red",on_click=lambda id=ad['_id']: delete_job(id)).classes('bg-red-500 hover:bg-red-600 text-white font-bold')
                     

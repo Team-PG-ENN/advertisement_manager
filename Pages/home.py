@@ -83,14 +83,17 @@ def show_home_page():
                                 'text-sm text-gray-700 font-medium px-2 py-1 bg-gray-100 rounded-full cursor-pointer hover:bg-gray-200'
                             )
 
-                # --- Right Column (Image) ---
+                                # --- Right Column (Video) ---
                 with ui.card().classes(
-                    'w-full aspect-video shadow-lg rounded-2xl overflow-hidden relative bg-orange-300'
+                    'w-full aspect-video shadow-lg rounded-2xl overflow-hidden relative'
                 ):
                     ui.html('''
-                        <img src="https://placehold.co/600x400/004c00/ffffff?text=Illustration+Placeholder" 
-                            class="w-full h-full object-cover">
+                        <video autoplay loop muted playsinline controls class="w-full h-full object-cover rounded-2xl">
+                            <source src="./assets/hero-video.mp4">
+                            Your browser does not support the video tag.
+                        </video>
                     ''')
+
 
     
 
@@ -111,13 +114,13 @@ def show_home_page():
             # Loop to create each job advertisement card
             for ad in advertisements:
                 with ui.card().classes('w-full my-2 p-2 shadow-md rounded-lg border-l-4 border-orange-500 hover:bg-gray-50 transition-colors duration-200 cursor-pointer flex-row items-center'):
-                    # Company Logo
-                    # ui.image(ad['logo']).classes('w-12 h-12 rounded-full border border-gray-300 object-contain flex-shrink-0')
+                    # # Company Logo
+                    # ui.image(ad['image']).classes('w-12 h-12 rounded-full border border-gray-300 object-contain flex-shrink-0')
                     
                     # Middle section with job details
                     with ui.column().classes('flex-grow px-4'):
                         with ui.row().classes('items-center gap-2'):
-                            ui.label(ad['Title']).classes('text-lg font-bold')
+                            ui.label(ad['job_title']).classes('text-lg font-bold')
                             # if ad['verified']:
                             #     ui.tooltip('Verified Partner')
                             #     ui.icon('verified').classes('text-blue-500 text-sm')
@@ -125,17 +128,17 @@ def show_home_page():
                         
                         # Tightly packed company, location, and date
                         # with ui.row().classes('items-center text-sm text-gray-600 space-x-1'):
-                            # ui.label(ad['company']).classes('font-semibold')
+                            ui.label(ad['category']).classes('font-semibold')
                             # ui.label(f'• {ad["location"]}')
                             # ui.label(f'• {ad["type"]}')
-                            # ui.label(f'• {ad["date_posted"]}').classes('text-xs text-gray-500')
+                            ui.label(f'• {ad["created_at"]}').classes('text-xs text-gray-500')
                         
-                        ui.label(ad['Description']).classes('text-sm text-gray-700 mt-1')
+                        ui.label(ad['job_description']).classes('text-sm text-gray-700 mt-1')
 
                         # Skills list
-                        # with ui.row().classes('mt-2 flex-wrap gap-1'):
-                        #     for skill in ad['skills']:
-                        #         ui.badge(skill).classes('bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded-full')
+                        with ui.row().classes('mt-2 flex-wrap gap-1'):
+                            for skill in ad['skills']:
+                                ui.badge(skill).classes('bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded-full')
                         
                     # View Details button to the right, with bookmark icon
                     with ui.column().classes('flex-shrink-0 items-center gap-2'):
@@ -176,28 +179,41 @@ def show_home_page():
 
     # Why Join Section
     with ui.row().classes('w-full justify-center p-4 mt-10'):
-        with ui.element("div").classes('bg-white rounded-2xl shadow-lg p-8 text-center max-w-5xl'):
+        with ui.element("div").classes('bg-white rounded-2xl shadow-lg p-8 text-center max-w-5xl mt-2'):
             ui.label("Why Join SkillBridge?").classes('text-2xl font-bold text-gray-800 mb-4')
-            ui.label("Connect with digital talent worldwide and find the perfect match for your projects.").classes('text-lg text-gray-600 mb-8')
+            ui.label("Connect with digital talent worldwide and find the perfect match for your projects.").classes('text-lg text-gray-600 mb-10')
             
             with ui.row().classes('flex flex-col md:flex-row flex-wrap justify-center gap-6'):
                 # Reason 1: Curated Community
-                with ui.card().classes('bg-white rounded-2xl p-6 text-center shadow-md w-full md:w-auto md:flex-1 min-w-[250px] max-w-[350px]'):
-                    ui.icon('diversity_3', size='5rem').props('color=primary').classes('mx-auto mb-4')
-                    ui.label("Curated Community").classes('text-xl font-bold text-center text-gray-800 mb-2')
-                    ui.label("We vet every talent to ensure you connect with top-tier professionals who deliver exceptional results.").classes('text-sm text-gray-600')
+                with ui.card().classes(
+                    'bg-white rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-md w-full md:w-auto md:flex-1 min-w-[250px] max-w-[350px]'
+                ):
+                    ui.icon('diversity_3', size='5rem').props('color=primary').classes('mb-4')
+                    ui.label("Curated Community").classes('text-xl font-bold text-gray-800 mb-2')
+                    ui.label(
+                        "We vet every talent to ensure you connect with top-tier professionals who deliver exceptional results."
+                    ).classes('text-sm text-gray-600')
 
                 # Reason 2: Powerful Tools
-                with ui.card().classes('bg-white rounded-2xl p-6 text-center shadow-md w-full md:w-auto md:flex-1 min-w-[250px] max-w-[350px]'):
-                    ui.icon('build', size='5rem').props('color=primary').classes('mx-auto mb-4')
+                with ui.card().classes(
+                    'bg-white flex flex-col items-center justify-center rounded-2xl p-6 text-center shadow-md w-full md:w-auto md:flex-1 min-w-[250px] max-w-[350px]'
+                ):
+                    ui.icon('build', size='5rem').props('color=primary').classes('mb-4')
                     ui.label("Powerful Tools").classes('text-xl font-bold text-gray-800 mb-2')
-                    ui.label("Use our advanced filtering and communication tools to quickly find and hire the perfect candidate.").classes('text-sm text-gray-600')
+                    ui.label(
+                        "Use our advanced filtering and communication tools to quickly find and hire the perfect candidate."
+                    ).classes('text-sm text-gray-600')
 
                 # Reason 3: Global Reach
-                with ui.card().classes('bg-white rounded-2xl p-6 text-center shadow-md w-full md:w-auto md:flex-1 min-w-[250px] max-w-[350px]'):
-                    ui.icon('public', size='5rem').props('color=primary').classes('mx-auto mb-4')
+                with ui.card().classes(
+                    'bg-white flex flex-col items-center justify-center rounded-2xl p-6 text-center shadow-md w-full md:w-auto md:flex-1 min-w-[250px] max-w-[350px]'
+                ):
+                    ui.icon('public', size='5rem').props('color=primary').classes('mb-4')
                     ui.label("Global Reach").classes('text-xl font-bold text-gray-800 mb-2')
-                    ui.label("Access a diverse pool of talent from all corners of the world, breaking down geographical barriers.").classes('text-sm text-gray-600')
+                    ui.label(
+                        "Access a diverse pool of talent from all corners of the world, breaking down geographical barriers."
+                    ).classes('text-sm text-gray-600')
+
 
     # Companies Section
     with ui.row().classes('w-screen bg-gray-100 py-6 mt-12 justify-center items-center'):

@@ -79,5 +79,4 @@ def vendor_page():
     vendor_dashboard_page()
 
 
-
 ui.run()

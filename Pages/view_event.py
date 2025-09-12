@@ -82,19 +82,17 @@ def show_view_event_page(job_id):
     """
     response = requests.get(f"{base_url}/find_job/{job_id}")
     json_data = response.json()
-    print(json_data)
     # Convert job_id from string to int
-    job_ad = json_data["advert"]
+    ad = json_data["advert"]
 
 
     # Header with home link
-    with ui.header().classes('items-center justify-between'):
+    with ui.header().classes('items-center justify-between bg-white px-4 py-4 shadow items-center pr-5 pl-5'):
         with ui.row().classes('items-center gap-2'):
             ui.button(icon='home', on_click=lambda: ui.navigate.to('/')).classes('text-white')
-            ui.label('Home').classes('text-white text-lg')
-        ui.label('Job Details').classes('text-white text-xl font-bold')
+        ui.label('Job Details').classes('text-xl font-bold').style('color:#1976D2')
 
-    if job_ad:
+    if ad:
         # Main container with responsive padding and background
         with ui.column().classes('w-full min-h-screen items-center bg-gray-100 p-4 md:p-8 lg:p-12'):
             # Job details card
@@ -104,7 +102,7 @@ def show_view_event_page(job_id):
                     # ui.image(job_ad['flyer']).classes('w-20 h-20 rounded-full border border-gray-300 object-contain')
                     with ui.column().classes('flex-grow'):
                         with ui.row().classes('items-center gap-2'):
-                            ui.label(job_ad['Title']).classes('text-2xl font-bold text-gray-800')
+                            ui.label(ad['Title']).classes('text-2xl font-bold text-gray-800')
                         #     if job_ad['verified']:
                         #         ui.tooltip('Verified Partner')
                         #         ui.icon('verified').classes('text-blue-500')
@@ -116,7 +114,7 @@ def show_view_event_page(job_id):
                     with ui.row().classes('w-full flex-wrap gap-x-6 gap-y-2 mb-4'):
                         with ui.column().classes('flex-grow'):
                             ui.label('Location').classes('text-sm font-semibold text-gray-500')
-                            ui.label(job_ad['Title']).classes('text-lg')
+                            ui.label(ad['Title']).classes('text-lg')
                         # with ui.column().classes('flex-grow'):
                         #     ui.label('Job Type').classes('text-sm font-semibold text-gray-500')
                         #     ui.label(job_ad['type']).classes('text-lg')
@@ -126,13 +124,13 @@ def show_view_event_page(job_id):
                     
                     # Detailed description
                     ui.label('Job Description').classes('text-lg font-bold mt-4 mb-2')
-                    ui.label(job_ad['Description']).classes('text-base text-gray-700 leading-relaxed')
+                    ui.label(ad['job_description']).classes('text-base text-gray-700 leading-relaxed')
 
                     # Skills section
-                    # ui.label('Skills').classes('text-lg font-bold mt-4 mb-2')
-                    # with ui.row().classes('w-full flex-wrap gap-2'):
-                    #     for skill in job_ad['skills']:
-                    #         ui.badge(skill).classes('bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium')
+                    ui.label('Skills').classes('text-lg font-bold mt-4 mb-2')
+                    with ui.row().classes('w-full flex-wrap gap-2'):
+                        for skill in ad['skills']:
+                            ui.badge(skill).classes('bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium')
                     
                     # Application selector
                     def handle_application_choice(e):
@@ -153,3 +151,191 @@ def show_view_event_page(job_id):
             ui.label('Job Not Found').classes('text-4xl font-bold text-red-600')
             ui.label('The requested job advertisement does not exist.').classes('text-lg mt-2')
             ui.button('Go to Homepage', on_click=lambda: ui.navigate.to('/')).classes('mt-6')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# from nicegui import ui
+# import requests
+# from utils.api import base_url
+
+
+# def show_add_event_page():
+#     """
+#     Displays a form to add a new job advertisement.
+#     Submits the data to the /add_job API endpoint.
+    
+
+    # # Header with home link
+    # with ui.header().classes('items-center justify-between bg-white px-4 py-4 shadow'):
+    #     with ui.row().classes('items-center gap-2'):
+    #         ui.button(icon='home', on_click=lambda: ui.navigate.to('/')).props('flat').classes('text-blue-600')
+    #     ui.label('Add Job Advertisement').classes('text-xl font-bold').style('color:#1976D2')
+
+    # # Main container
+    # with ui.column().classes('w-full min-h-screen items-center bg-gray-100 p-4 md:p-8 lg:p-12'):
+
+    #     with ui.card().classes('w-full max-w-4xl p-6 shadow-xl rounded-lg bg-white'):
+
+    #         # --- Input Fields ---
+    #         title = ui.input(label='Job Title', placeholder='e.g., Software Development Trainee') \
+    #             .classes('w-full mb-4')
+
+    #         description = ui.textarea(label='Job Description', placeholder='Enter detailed job description...') \
+    #             .classes('w-full mb-4')
+
+    #         location = ui.input(label='Location', placeholder='e.g., Accra, Ghana') \
+    #             .classes('w-full mb-4')
+
+    #         job_type = ui.select(['On-site', 'Remote', 'Hybrid'], label='Job Type') \
+    #             .classes('w-full mb-4')
+
+    #         salary = ui.input(label='Salary', placeholder='e.g., GHS 2,500 - 3,500 per month') \
+    #             .classes('w-full mb-4')
+
+    #         company = ui.input(label='Company Name', placeholder='e.g., MEST Africa') \
+    #             .classes('w-full mb-4')
+
+    #         logo = ui.input(label='Company Logo URL', placeholder='Paste logo URL here') \
+    #             .classes('w-full mb-4')
+
+    #         skills = ui.input(
+    #             label='Skills (comma-separated)',
+    #             placeholder='e.g., Python, JavaScript, Django'
+    #         ).classes('w-full mb-4')
+
+    #         # --- Submit Button ---
+    #         def submit_job():
+    #             payload = {
+    #                 "Title": title.value,
+    #                 "Description": description.value,
+    #                 "Location": location.value,
+    #                 "Type": job_type.value,
+    #                 "Salary": salary.value,
+    #                 "Company": company.value,
+    #                 "Logo": logo.value,
+    #                 "Skills": [s.strip() for s in skills.value.split(",")] if skills.value else [],
+    #             }
+
+    #             try:
+    #                 response = requests.post(f"{base_url}/add_job", json=payload)
+    #                 if response.status_code == 201:
+    #                     ui.notify('Job successfully added!', type='positive')
+    #                     ui.navigate.to('/all-ads')
+    #                 else:
+    #                     ui.notify(f"Error: {response.text}", type='negative')
+    #             except Exception as e:
+    #                 ui.notify(f"Failed to connect: {e}", type='negative')
+
+    #         ui.button('Submit Job', on_click=submit_job).classes(
+    #             'mt-6 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg'
+    #         )
+
+
+
+
+# from nicegui import ui
+# import requests
+# from utils.api import base_url
+
+
+# def show_edit_event_page(job_id: int):
+#     """
+#     Displays a form to edit an existing job advertisement.
+#     Submits updated data to the /update_job/{job_id} API endpoint.
+#     """
+
+#     # Fetch existing job data
+#     try:
+#         response = requests.get(f"{base_url}/find_job/{job_id}")
+#         if response.status_code == 200:
+#             job_ad = response.json().get("advert", {})
+#         else:
+#             job_ad = {}
+#     except Exception as e:
+#         job_ad = {}
+#         ui.notify(f"Error fetching job: {e}", type='negative')
+
+#     # Header
+#     with ui.header().classes('items-center justify-between bg-white px-4 py-4 shadow'):
+#         with ui.row().classes('items-center gap-2'):
+#             ui.button(icon='home', on_click=lambda: ui.navigate.to('/')).props('flat').classes('text-blue-600')
+#         ui.label('Edit Job Advertisement').classes('text-xl font-bold').style('color:#1976D2')
+
+#     if not job_ad:
+#         with ui.column().classes('w-full h-screen items-center justify-center'):
+#             ui.label('Job Not Found').classes('text-3xl font-bold text-red-600')
+#             ui.button('Go to Homepage', on_click=lambda: ui.navigate.to('/')).classes('mt-6')
+#         return
+
+#     # Main container
+#     with ui.column().classes('w-full min-h-screen items-center bg-gray-100 p-4 md:p-8 lg:p-12'):
+
+#         with ui.card().classes('w-full max-w-4xl p-6 shadow-xl rounded-lg bg-white'):
+
+#             # --- Pre-filled Input Fields ---
+#             title = ui.input(label='Job Title', value=job_ad.get("Title", "")) \
+#                 .classes('w-full mb-4')
+
+#             description = ui.textarea(label='Job Description', value=job_ad.get("Description", "")) \
+#                 .classes('w-full mb-4')
+
+#             location = ui.input(label='Location', value=job_ad.get("Location", "")) \
+#                 .classes('w-full mb-4')
+
+#             job_type = ui.select(['On-site', 'Remote', 'Hybrid'],
+#                                  value=job_ad.get("Type", None),
+#                                  label='Job Type') \
+#                 .classes('w-full mb-4')
+
+#             salary = ui.input(label='Salary', value=job_ad.get("Salary", "")) \
+#                 .classes('w-full mb-4')
+
+#             company = ui.input(label='Company Name', value=job_ad.get("Company", "")) \
+#                 .classes('w-full mb-4')
+
+#             logo = ui.input(label='Company Logo URL', value=job_ad.get("Logo", "")) \
+#                 .classes('w-full mb-4')
+
+#             skills = ui.input(
+#                 label='Skills (comma-separated)',
+#                 value=", ".join(job_ad.get("Skills", [])) if job_ad.get("Skills") else ""
+#             ).classes('w-full mb-4')
+
+#             # --- Submit Button ---
+#             def submit_update():
+#                 payload = {
+#                     "Title": title.value,
+#                     "Description": description.value,
+#                     "Location": location.value,
+#                     "Type": job_type.value,
+#                     "Salary": salary.value,
+#                     "Company": company.value,
+#                     "Logo": logo.value,
+#                     "Skills": [s.strip() for s in skills.value.split(",")] if skills.value else [],
+#                 }
+
+#                 try:
+#                     response = requests.put(f"{base_url}/update_job/{job_id}", json=payload)
+#                     if response.status_code == 200:
+#                         ui.notify('Job successfully updated!', type='positive')
+#                         ui.navigate.to(f'/view_event/{job_id}')
+#                     else:
+#                         ui.notify(f"Error: {response.text}", type='negative')
+#                 except Exception as e:
+#                     ui.notify(f"Failed to connect: {e}", type='negative')
+
+#             ui.button('Update Job', on_click=submit_update).classes(
+#                 'mt-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg'
+#             )
