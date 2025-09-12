@@ -28,16 +28,16 @@ def vendor_dashboard_page():
     json_data = response.json()
     # --- Header Section ---
     with ui.header().classes('bg-white px-4 py-4 shadow items-center'):
-        with ui.row().classes('w-full flex justify-between items-center'):
+        with ui.row().classes('w-full flex justify-between items-center pr-5 pl-5'):
 
             # --- Left Section (Home link) ---
             with ui.row().classes('items-center gap-2'):
                 ui.link('Home', target='/').classes(
-                    'no-underline font-bold hover:underline text-sm md:text-base'
-                )
+                    'no-underline font-bold hover:underline text-base md:text-xl'
+                ).style('color: #1976D2;')
 
             # --- Center Section 
-            with ui.row().classes('items-center gap-3 text-center'):
+            with ui.row().classes('items-center gap-3 text-center border px-2'):
 
                 ui.image(
                     'https://tse4.mm.bing.net/th/id/OIP.pslKeE6ElqR_o2DBg6JaNwAAAA?r=0&cb=ucfimg2&pid=ImgDet&ucfimg=1&w=150&h=150&c=7&dpr=1.5&o=7&rm=3'
@@ -45,12 +45,10 @@ def vendor_dashboard_page():
 
                 ui.label('MEST Africa').classes(
                     'text-gray-800 text-base md:text-xl font-bold'
-                )
-                
-
-                ui.link('All Advertisements', target='/all-ads').props('color=primary').classes(
-                    'mr-[20px] no-underline font-bold hover:underline text-xl md:text-base'
-                )
+                )  
+            
+                ui.link('All Advertisements', target='/all-ads').classes(
+                'ml-5 no-underline font-bold hover:underline text-base md:text-xl').style('color: #1976D2;')
 
             # --- Right Section (Post button) ---
             with ui.row().classes('items-center'):
