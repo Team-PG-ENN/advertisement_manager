@@ -1,55 +1,106 @@
-# edit_event.py
 from nicegui import ui
-from pages.add_event import events
 
+# Sample data for a job advertisement
+job_data = {
+    'title': 'Senior Software Engineer',
+    'company': 'Tech Solutions Inc.',
+    'location': 'Remote',
+    'salary': '$120,000 - $150,000',
+    'description': 'We are looking for a highly skilled and motivated Senior Software Engineer to join our growing team. The ideal candidate will have extensive experience in Python and cloud technologies.'
+}
 
-def update_event(event_id, title, desc, category, price):
-    """Update an existing event by ID"""
-    for event in events:
-        if event["id"] == event_id:
-            event["title"] = title
-            event["desc"] = desc
-            event["category"] = category
-            event["price"] = price
-            ui.notify(f"✅ Event ID {event_id} updated successfully!")
-            break
+# The main function to set up the UI
+@ui.page('/')
+def show_edit_event_page():
+    ui.add_head_html("""
+        <style>
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 2rem;
+            }
+            .form-title {
+                font-size: 2.25rem;
+                font-weight: 700;
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+            .form-section {
+                margin-bottom: 1.5rem;
+            }
+            .label {
+                font-size: 0.875rem;
+                font-weight: 600;
+                color: #4b5563;
+                margin-bottom: 0.5rem;
+                display: block;
+            }
+            .input {
+                width: 100%;
+                padding: 0.75rem;
+                border-radius: 0.375rem;
+                border: 1px solid #d1d5db;
+                outline: none;
+                transition: border-color 0.2s;
+            }
+            .input:focus {
+                border-color: #3b82f6;
+            }
+            .textarea {
+                min-height: 150px;
+            }
+            .button {
+                width: 100%;
+                background-color: #2563eb;
+                color: white;
+                font-weight: 700;
+                padding: 0.75rem;
+                border-radius: 0.375rem;
+                cursor: pointer;
+                border: none;
+                transition: background-color 0.2s;
+            }
+            .button:hover {
+                background-color: #1d4ed8;
+            }
+        </style>
+    """)
 
+    with ui.card().classes('w-full container bg-white shadow-lg rounded-xl'):
+        ui.label('Edit Job Advertisement').classes('form-title text-gray-800')
 
-# @ui.page("/edit/{event_id}")
-def show_edit_event_page(event_id: int):
-    """Edit event page"""
-    # Find the event by ID
-    event = next((e for e in events if e["id"] == event_id), None)
-    if not event:
-        ui.label("⚠️ Event not found").classes("text-red-600 text-xl")
-        return
+        with ui.column().classes('w-full'):
+            # Job Title input field
+            ui.label('Job Title').classes('label')
+            title_input = ui.input(value=job_data['title'], label='Job Title').classes('input')
 
-    ui.label("✏️ Edit Event").classes(
-        "text-3xl font-bold text-blue-600 mb-6 text-center"
-    )
+            # Company input field
+            ui.label('Company').classes('label')
+            company_input = ui.input(value=job_data['company'], label='Company').classes('input')
 
-    # Pre-filled inputs
-    title_input = ui.input("Event Title", value=event["title"]).props("outlined").classes("w-full mb-3")
-    desc_input = ui.textarea("Event Description", value=event["desc"]).props("outlined").classes("w-full mb-3")
-    category_input = ui.input("Category", value=event["category"]).props("outlined").classes("w-full mb-3")
-    price_input = ui.input("Price", value=event["price"]).props("outlined type=number").classes("w-full mb-3")
+            # Location input field
+            ui.label('Location').classes('label')
+            location_input = ui.input(value=job_data['location'], label='Location').classes('input')
 
-    # Save changes
+            # Salary input field
+            ui.label('Salary').classes('label')
+            salary_input = ui.input(value=job_data['salary'], label='Salary').classes('input')
+
+            # Job Description text area
+            ui.label('Job Description').classes('label')
+            description_textarea = ui.textarea(value=job_data['description'], label='Job Description').classes('input textarea')
+
+            # Save button
+            ui.button('Save Changes', on_click=lambda: save_changes()).classes('button mt-4')
+
     def save_changes():
-        if not title_input.value or not desc_input.value:
-            ui.notify("⚠️ Please fill in all required fields", color="red")
-            return
-        update_event(
-            event_id,
-            title_input.value,
-            desc_input.value,
-            category_input.value,
-            price_input.value,
-        )
+        # This function would handle saving the updated data
+        # For this example, we'll just print the new values
+        ui.notify('Changes saved!', type='positive')
+        print("Updated Job Data:")
+        print(f"Title: {title_input.value}")
+        print(f"Company: {company_input.value}")
+        print(f"Location: {location_input.value}")
+        print(f"Salary: {salary_input.value}")
+        print(f"Description: {description_textarea.value}")
 
-    ui.button("💾 Update Event", on_click=save_changes).classes(
-        "bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
-    )
-
-
-ui.run()

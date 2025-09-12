@@ -1,65 +1,104 @@
-# add_event.py
 from nicegui import ui
-import requests 
-from utils.api import base_url
 
-def save_event(data):
-    response = requests.post(f"{base_url}/add_advert", data)
-    print(response.json())
-
-
-# global in-memory event store (can be moved to a database later)
-events = []
-event_id_counter = 1
-
-
-def add_event(title, desc, category, price):
-    """Add new event to storage"""
-    global event_id_counter
-    events.append({
-        "id": event_id_counter,
-        "title": title,
-        "desc": desc,
-        "category": category,
-        "price": price,
-    })
-    event_id_counter += 1
-    ui.notify("✅ Event added successfully!")
-
-
+# The main function to set up the UI
+@ui.page('/')
 def show_add_event_page():
-    ui.label("➕ Add New Event").classes(
-        "text-3xl font-bold text-orange-600 mb-6 text-center"
-    )
+    ui.add_head_html("""
+        <style>
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 2rem;
+            }
+            .form-title {
+                font-size: 2.25rem;
+                font-weight: 700;
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+            .form-section {
+                margin-bottom: 1.5rem;
+            }
+            .label {
+                font-size: 0.875rem;
+                font-weight: 600;
+                color: #4b5563;
+                margin-bottom: 0.5rem;
+                display: block;
+            }
+            .input {
+                width: 100%;
+                padding: 0.75rem;
+                border-radius: 0.375rem;
+                border: 1px solid #d1d5db;
+                outline: none;
+                transition: border-color 0.2s;
+            }
+            .input:focus {
+                border-color: #3b82f6;
+            }
+            .textarea {
+                min-height: 150px;
+            }
+            .button {
+                width: 100%;
+                background-color: #2563eb;
+                color: white;
+                font-weight: 700;
+                padding: 0.75rem;
+                border-radius: 0.375rem;
+                cursor: pointer;
+                border: none;
+                transition: background-color 0.2s;
+            }
+            .button:hover {
+                background-color: #1d4ed8;
+            }
+        </style>
+    """)
 
-    # Input fields
-    title_input = ui.input("Event Title").props("outlined").classes("w-full mb-3")
-    desc_input = ui.textarea("Event Description").props("outlined").classes("w-full mb-3")
-    
-    category_input = ui.select(
-        ["IT", "Business", "Design", "Data", "Other"], 
-        label="Category"
-    ).props("outlined").classes("w-full mb-3")
+    # Function to be called when the form is submitted
+    def add_new_job():
+        # You would typically save this data to a database here.
+        # For this example, we'll just print the new values and clear the form.
+        ui.notify('New job advertisement added!', type='positive')
+        print("New Job Advertisement Data:")
+        print(f"Title: {title_input.value}")
+        print(f"Company: {company_input.value}")
+        print(f"Location: {location_input.value}")
+        print(f"Salary: {salary_input.value}")
+        print(f"Description: {description_textarea.value}")
+        
+        # Clear the form fields after submission
+        title_input.value = ''
+        company_input.value = ''
+        location_input.value = ''
+        salary_input.value = ''
+        description_textarea.value = ''
 
-    price_input = ui.input("Price").props("outlined type=number").classes("w-full mb-3")
+    with ui.card().classes('w-full container bg-white shadow-lg rounded-xl'):
+        ui.label('Add New Job Advertisement').classes('form-title text-gray-800')
 
+        with ui.column().classes('w-full'):
+            # Job Title input field, starting empty
+            ui.label('Job Title').classes('label')
+            title_input = ui.input(value='', label='Enter job title').classes('input')
 
-    # Save button
-    def save_event():
-        if not title_input.value or not desc_input.value:
-            ui.notify("⚠️ Please fill in all required fields", color="red")
-            return
-        add_event(title_input.value, desc_input.value, category_input.value, price_input.value)
-        # reset inputs
-        title_input.value, desc_input.value, category_input.value, price_input.value = "", "", "", ""
+            # Company input field, starting empty
+            ui.label('Company').classes('label')
+            company_input = ui.input(value='', label='Enter company name').classes('input')
 
-    ui.button("Save Event", on_click=lambda:save_event({
-        "title":title_input.value,
-        "descs":desc_input.value,
-        "category":category_input.value,
-        "price":price_input.value
+            # Location input field, starting empty
+            ui.label('Location').classes('label')
+            location_input = ui.input(value='', label='Enter job location').classes('input')
 
+            # Salary input field, starting empty
+            ui.label('Salary').classes('label')
+            salary_input = ui.input(value='', label='Enter salary range').classes('input')
 
-    })).classes(
-        "bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700"
-    )
+            # Job Description text area, starting empty
+            ui.label('Job Description').classes('label')
+            description_textarea = ui.textarea(value='', label='Enter job description').classes('input textarea')
+
+            # Submit button
+            ui.button('Add Job', on_click=add_new_job).classes('button mt-4')
