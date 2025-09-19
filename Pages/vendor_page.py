@@ -116,10 +116,10 @@ def vendor_dashboard_page():
                     with ui.column().classes('flex-grow px-4'):
                         with ui.row().classes('items-center gap-2'):
                             ui.label(ad['job_title']).classes('text-lg font-bold')
-                            # if ad['verified']:
-                            #     ui.tooltip('Verified Partner')
-                            #     ui.icon('verified').classes('text-blue-500 text-sm')
-                            #     ui.label('Verified').classes('text-blue-500 text-sm')
+                            with ui.element("div"):
+                                ui.tooltip('Verified Partner')
+                                ui.icon('verified').classes('text-blue-500 text-sm')
+                                ui.label('Verified').classes('text-blue-500 text-sm')
                         
                         # Tightly packed company, location, and date
                         with ui.row().classes('items-center text-sm text-gray-600 space-x-1'):
@@ -172,6 +172,6 @@ def vendor_dashboard_page():
                 # Edit and Delete buttons
                 with ui.row().classes('w-full mt-1 justify-end gap-2'):
                     ui.button('View', on_click=lambda id=ad['_id']: view_details(id)).classes('bg-blue-500 hover:bg-blue-600 text-white font-bold')
-                    ui.button('Edit', on_click=lambda: ui.navigate.to('/edit_event')).classes('bg-blue-500 hover:bg-blue-600 text-white font-bold')
+                    ui.button('Edit', on_click=lambda: ui.navigate.to('/edit_event/{event_id}')).classes('bg-blue-500 hover:bg-blue-600 text-white font-bold')
                     ui.button('Delete', color="red",on_click=lambda id=ad['_id']: delete_job(id)).classes('bg-red-500 hover:bg-red-600 text-white font-bold')
                     

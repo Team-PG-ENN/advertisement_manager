@@ -69,10 +69,10 @@ def add_event_page():
 def view_event_page(id=""):
     show_view_event_page(id)
 
-# @ui.page("/edit_event/{event_id}")
-# def edit_event_page(event_id: int):
-#     show_header()
-#     show_edit_event_page(event_id)
+@ui.page("/edit_event/{event_id}")
+def edit_event_page(event_id: int):
+    show_header()
+    show_edit_event_page(event_id)
 
 @ui.page('/vendor')
 def vendor_page():

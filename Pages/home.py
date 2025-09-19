@@ -115,7 +115,7 @@ def show_home_page():
             for ad in advertisements:
                 with ui.card().classes('w-full my-2 p-2 shadow-md rounded-lg border-l-4 border-orange-500 hover:bg-gray-50 transition-colors duration-200 cursor-pointer flex-row items-center'):
                     # # Company Logo
-                    # ui.image(ad['image']).classes('w-12 h-12 rounded-full border border-gray-300 object-contain flex-shrink-0')
+                    ui.image(ad['image']).classes('w-12 h-12 rounded-full border border-gray-300 object-contain flex-shrink-0')
                     
                     # Middle section with job details
                     with ui.column().classes('flex-grow px-4'):
@@ -297,7 +297,7 @@ def show_home_page():
                     width: 100px;
                     height: 100px;
                     border-radius: 50%;
-                    object-fit: cover;
+                    object-fit: fit;
                     margin-bottom: 1rem;
                 }
                 .story-text {
