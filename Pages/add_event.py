@@ -8,7 +8,7 @@ def show_add_event_page():
     Displays a form to add a new job advertisement.
     Submits the data to the /add_job API endpoint.
     """
-    
+
     # Header with home link
     with ui.header().classes('items-center justify-between bg-white px-4 py-4 shadow'):
         with ui.row().classes('items-center gap-2'):
@@ -50,14 +50,14 @@ def show_add_event_page():
             # --- Submit Button ---
             def submit_job():
                 payload = {
-                    "Title": title.value,
-                    "Description": description.value,
-                    "Location": location.value,
-                    "Type": job_type.value,
-                    "Salary": salary.value,
-                    "Company": company.value,
-                    "Logo": logo.value,
-                    "Skills": [s.strip() for s in skills.value.split(",")] if skills.value else [],
+                    "job_tittle": title.value,
+                    "job_description": description.value,
+                    "created_ads": location.value, #here was changed to category 
+                    # "": job_type.value,
+                    "Salaries": salary.value,
+                    "category": company.value,
+                    "image": logo.value,
+                    "Skills": [s.strip() for s in skills.value.split(",")] if skills.value else []
                 }
 
                 try:
