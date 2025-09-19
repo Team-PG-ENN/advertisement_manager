@@ -60,10 +60,10 @@ def add_event_page():
     show_header()
     show_add_event_page()
 
-# @ui.page("/edit_event")
-# def edit_event_page():
-#     show_header()
-#     show_edit_event_page()
+@ui.page("/edit_event")
+def edit_event_page():
+    show_header()
+    show_edit_event_page()
 
 @ui.page("/view_event")
 def view_event_page(id=""):
@@ -78,6 +78,7 @@ def edit_event_page(event_id: int):
 def vendor_page():
     vendor_dashboard_page()
 
+# added a main.py file to amdhgwjhue
 
 
 ui.run()
