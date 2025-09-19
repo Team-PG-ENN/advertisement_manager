@@ -69,16 +69,17 @@ def edit_event_page():
 def view_event_page(id=""):
     show_view_event_page(id)
 
-@ui.page("/edit_event/{event_id}")
-def edit_event_page(event_id: int):
+@ui.page("/edit_event/{job_id}")
+def edit_event_page(job_id: int):
     show_header()
-    show_edit_event_page(event_id)
+    show_edit_event_page(job_id)
 
 @ui.page('/vendor')
 def vendor_page():
     vendor_dashboard_page()
 
-# added a main.py file to amdhgwjhue
+# added a main.py file to amdhgwjhue hvjxbabgkjhkhahxkkj
+# bjxbajibghb
 
 
 ui.run()
