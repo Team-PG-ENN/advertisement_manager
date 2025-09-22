@@ -96,10 +96,10 @@ def vendor_dashboard_page():
         #             ui.navigate.to(f'/view_event?id={job_id}')
     # --- Advertisements Section ---
     with ui.row().classes('md:w-full px-4 md:px-10 lg:px-24 flex-wrap bg-gray-100 justify-center'):
-        with ui.column().classes('w-full'):
-            ui.label('Advertisements Summary').classes('text-2xl md:mt-5 font-bold text-gray-800 mb-3')
+        with ui.column().classes('w-full my-5'):
+            ui.label('Advertisements Summary').classes('text-2xl md:mt-5 font-bold text-gray-800')
             with ui.row().classes('w-full'):
-                with ui.card().classes('md:w-[20%] bg-white'):
+                with ui.card().classes('md:w-[20%] w-full bg-white'):
                     ui.label('Total Adverts')
                     ui.label(2).classes('text-3xl font-bold')
                 with ui.card().classes('md:w-[78%] bg-white'):
@@ -110,8 +110,8 @@ def vendor_dashboard_page():
                                 "rounded-full bg-blue-100 text-black px-3 py-1 hover:bg-blue-200"
                             )
         # Main container for the job ads list
-        with ui.column().classes('w-full'):
-            ui.label('Posted Adverts').classes('text-2xl font-bold text-gray-800 mb-3')
+        with ui.column().classes('w-full my-5'):
+            ui.label('Posted Adverts').classes('text-2xl font-bold text-gray-800')
 
             # A list of advertisement data
             advertisements = json_data["adverts"]
