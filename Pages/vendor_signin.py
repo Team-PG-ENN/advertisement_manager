@@ -7,21 +7,11 @@ def show_vendor_signin_page():
 ):
     # --- Left Side (Image/Welcome section) ---
         with ui.element("div").classes(
-            "relative bg-red-300 h-[40%] md:h-full w-full md:w-1/2 m-0 p-0"
+            "relative bg-[url('/assets/skillbridge1.png')] bg-cover bg-center h-[40%] md:h-full w-full md:w-1/2 m-0 p-0 flex items-center justify-center"
         ):
-            with ui.element("div").classes(
-                "absolute inset-0 flex flex-col items-center justify-center text-white p-6"
-            ):
-                ui.label("Welcome back").classes(
-                    "text-3xl md:text-4xl text-center font-bold mb-6"
-                )
-                ui.label(
-                    "To keep connected with us provide us with your information"
-                ).classes("text-sm md:text-base text-center max-w-md mb-6")
-                ui.button("Sign up") \
-                    .props("flat dense no-caps") \
-                    .classes("bg-gray-500 text-white w-[100px] hover:bg-gray-400") \
-                    .on_click(lambda: ui.run_javascript("window.location.href = '/signin'"))
+            ui.element("div").classes("absolute inset-0 bg-black/40")
+        
+                # .on_click(lambda: ui.run_javascript("window.location.href = '/signin'"))
 
         # --- Right Side (Form section) ---
         with ui.column().classes(
@@ -49,8 +39,8 @@ def show_vendor_signin_page():
 
                 # Buttons
                 ui.button("Login as Company") \
-                    .props("no-caps") \
-                    .classes("text-white text-base mt-5 text-center w-full")
+                    .props("no-caps flat") \
+                    .classes("text-white text-base bg-primary mt-5 text-center w-full")
 
                 ui.button("Login as User") \
                     .props("no-caps flat") \
