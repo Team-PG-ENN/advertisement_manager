@@ -35,6 +35,7 @@ def show_home_page():
     json_data = response.json()
 
     # Main Layout 
+    ui.query('.q-page-container').classes('m-0 p-0 gap-0')
     ui.query('.nicegui-content').classes('m-0 p-0 gap-0')
     with ui.column().classes('w-full h-screen items-center'):
 
@@ -257,62 +258,30 @@ def show_home_page():
 
 
     # About Us Section
-    with ui.column().classes('w-full h-screen items-center'):
-
-       # Hero Section in Grid 
+    with ui.column().classes('w-full bg-gray-100  my-15 items-center'):
         with ui.row().classes(
-            'w-full h-full items-center bg-gray-100 px-10'
+            'w-full items-center bg-gray-100 px-10'
         ):
             with ui.element('div').classes(
                 'grid grid-cols-1 md:grid-cols-2 gap-8 w-full items-center'
             ):
 
-                # --- Left Column (Text, Search, Tabs) ---
-                with ui.column().classes('space-y-4 text-center md:text-left'):
+                # Left column for the 'About Us text'
+                with ui.column().classes('space-y-4 md:text-left'):
                     ui.label("About Us").classes(
                         'text-2xl md:text-5xl font-extrabold leading-tight text-gray-800'
                     )
                     ui.label(
-                        "About Us."
+                        "Skillbridge was founded on the principle that the right skills can transform lives. We are dedicated to bridge the gap" \
+                        "between emerging tech talent and the companies that need them."
                     ).classes('text-gray-600 text-sm md:text-lg')
-
-                    # Tabs
-                    with ui.row().classes('mt-6 gap-2 flex-wrap justify-center md:justify-start'):
-                        ui.button('All jobs', icon='work').classes(
-                            'rounded-full text-white px-4 md:px-6 py-2 text-sm md:text-base'
-                        )
-                        ui.button('Recent Jobs', icon='business_center').classes(
-                            'rounded-full  text-white px-4 md:px-6 py-2 text-sm md:text-base'
-                        )
-                        ui.button('Companies', icon='domain').classes(
-                            'rounded-full bg-gray-200 text-gray-700 px-4 md:px-6 py-2 text-sm md:text-base'
-                        )
-
-                    # Search bar
-                    with ui.row().classes('w-full items-center mt-4 gap-2 flex-wrap'):
-                        ui.input(
-                            placeholder='Search for jobs...'
-                        ).classes('flex-grow min-w-[180px]').props('rounded outlined')
-                        ui.button(icon='search').classes('text-white rounded-full p-3')
-
-                    # Popular searches
-                    with ui.row().classes('w-full items-center mt-2 flex-wrap gap-2 justify-center md:justify-start'):
-                        ui.label('Popular:').classes('text-gray-500 text-sm font-semibold')
-                        for term in ['Web Development', 'UI/UX', 'Data Analytics', 'Digital Marketing']:
-                            ui.label(term).classes(
-                                'text-sm text-gray-700 font-medium px-2 py-1 bg-gray-100 rounded-full cursor-pointer hover:bg-gray-200'
-                            )
+                    ui.button('Learn More').props('no-caps').classes()
 
                                 # --- Right Column (Video) ---
                 with ui.card().classes(
-                    'w-full aspect-video items-center shadow-lg rounded-2xl overflow-hidden relative'
+                    'w-full aspect-image items-center shadow-lg rounded-2xl overflow-hidden relative my-10'
                 ):
-                    ui.html('''
-                        <video autoplay loop muted playsinline controls class="w-full h-full object-contain rounded-2xl">
-                            <source src="./assets/hero-video.mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    ''')
+                    ui.image('')
 
 
 
