@@ -7,9 +7,9 @@ def show_vendor_signin_page():
 ):
     # --- Left Side (Image/Welcome section) ---
         with ui.element("div").classes(
-            "relative bg-[url('/assets/skillbridge_signin.jpg')] bg-contain  h-[40%] md:h-full w-full md:w-1/2 m-0 p-0 flex items-center justify-center"
+            "relative bg-[url('/assets/skillbridge_signin.png')] bg-cover bg-center h-[40%] md:h-full w-full md:w-1/2 m-0 p-0 flex items-center justify-center"
         ):
-            ui.element("div").classes("absolute inset-0 bg-black/60")
+            ui.element("div").classes("absolute inset-0 bg-black/40")
         
                 # .on_click(lambda: ui.run_javascript("window.location.href = '/signin'"))
 

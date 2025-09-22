@@ -76,17 +76,13 @@ ADVERTISEMENTS = {
 # The page definition for viewing job details
 
 def show_view_event_page(job_id):
-    """
-    Displays the detailed information for a specific job advertisement.
-    The job_id is extracted from the URL.
-    """
     response = requests.get(f"{base_url}/find_job/{job_id}")
     json_data = response.json()
     # Convert job_id from string to int
     ad = json_data["advert"]
 
-
     # Header with home link
+    ui.query('.nicegui-content').classes('m-0 p-0 gap-0')
     with ui.header().classes('items-center justify-between bg-white px-4 py-4 shadow items-center pr-5 pl-5'):
         with ui.row().classes('items-center gap-2'):
             ui.button(text="< Back",icon='Home',on_click=lambda:ui.navigate.back()).classes('text-white text-center justify-center flex')
@@ -94,9 +90,9 @@ def show_view_event_page(job_id):
 
     if ad:
         # Main container with responsive padding and background
-        with ui.column().classes('w-full min-h-screen items-center bg-gray-100 p-4 md:p-8 lg:p-12'):
+        with ui.column().classes('w-full h-full items-center bg-gray-100 p-4 md:p-8 lg:p-12'):
             # Job details card
-            with ui.card().classes('w-full max-w-4xl p-6 shadow-xl rounded-lg bg-white'):
+            with ui.card().classes('w-full h-full max-w-4xl p-6 shadow-xl rounded-lg bg-white'):
                 # Header section
                 with ui.row().classes('w-full items-center gap-4 border-b pb-4 mb-4'):
                     ui.image(ad['image']).classes('w-20 h-20 rounded-full border border-gray-300 object-contain')

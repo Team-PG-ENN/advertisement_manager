@@ -29,17 +29,18 @@ def vendor_dashboard_page():
     response = requests.get(f"{base_url}/view_job")
     json_data = response.json()
     # --- Header Section ---
+    ui.query('.nicegui-content').classes('m-0 p-0 gap-0')
     with ui.header().classes('bg-white px-4 py-4 shadow items-center'):
         with ui.row().classes('w-full flex justify-between items-center pr-5 pl-5'):
 
             # --- Left Section (Home link) ---
             with ui.row().classes('items-center gap-2'):
-                ui.link('Home', target='/').classes(
-                    'no-underline font-bold hover:underline text-base md:text-xl'
+                ui.link('Back to Homepage', target='/').classes(
+                    'no-underline font-bold hover:underline text-base md:text-lg'
                 ).style('color: #1976D2;')
 
             # --- Center Section 
-            with ui.row().classes('items-center gap-3 text-center border px-2'):
+            with ui.row().classes('items-center gap-3 text-center px-2'):
 
                 ui.image(
                     'https://tse4.mm.bing.net/th/id/OIP.pslKeE6ElqR_o2DBg6JaNwAAAA?r=0&cb=ucfimg2&pid=ImgDet&ucfimg=1&w=150&h=150&c=7&dpr=1.5&o=7&rm=3'
@@ -54,9 +55,9 @@ def vendor_dashboard_page():
 
             # --- Right Section (Post button) ---
             with ui.row().classes('items-center'):
-                ui.button('Add Job', icon='post_add',
+                ui.button('Add a Job', icon='post_add',
                     on_click=lambda: ui.navigate.to('/add_event')
-                ).classes(
+                ).props('no-caps').classes(
                     ' hover:bg-green-600 text-white font-bold rounded px-4 md:px-6'
                 )
 
@@ -94,11 +95,24 @@ def vendor_dashboard_page():
         #         def view_details(job_id):
         #             ui.navigate.to(f'/view_event?id={job_id}')
     # --- Advertisements Section ---
-    with ui.row().classes('w-full mt-12 px-4 md:px-12 lg:px-24 flex-wrap justify-center'):
+    with ui.row().classes('md:w-full px-4 md:px-10 lg:px-24 flex-wrap bg-gray-100 justify-center'):
+        with ui.column().classes('w-full'):
+            ui.label('Advertisements Summary').classes('text-2xl md:mt-5 font-bold text-gray-800 mb-3')
+            with ui.row().classes('w-full'):
+                with ui.card().classes('md:w-[20%] bg-white'):
+                    ui.label('Total Adverts')
+                    ui.label(2).classes('text-3xl font-bold')
+                with ui.card().classes('md:w-[78%] bg-white'):
+                    ui.label('Advert Categories').classes('p-0 m-0')
+                    with ui.row().classes('w-full gap-2 flex-wrap'):
+                        for cat in ['Web Development', 'Data Analytics', 'Digital Marketing','Cloud Computing','Software Engineering','Project Management']:
+                            ui.button(cat).props('no-caps flat').classes(
+                                "rounded-full bg-blue-100 text-black px-3 py-1 hover:bg-blue-200"
+                            )
         # Main container for the job ads list
-        with ui.column().classes('w-full lg:w-3/5 xl:w-1/2'):
-            ui.label('Posted Advertisments').classes('text-2xl font-bold text-gray-800 mb-6')
-            
+        with ui.column().classes('w-full'):
+            ui.label('Posted Adverts').classes('text-2xl font-bold text-gray-800 mb-3')
+
             # A list of advertisement data
             advertisements = json_data["adverts"]
 
@@ -108,70 +122,51 @@ def vendor_dashboard_page():
 
             # Loop to create each job advertisement card
             for ad in advertisements:
-                with ui.card().classes('w-full my-2 p-2 shadow-md rounded-lg border-l-4 border-orange-500 hover:bg-gray-50 transition-colors duration-200 cursor-pointer flex-row items-center'):
-                    # Company Logo
-                    ui.image(ad['image']).classes('w-12 h-12 rounded-full border border-gray-300 object-contain flex-shrink-0')
-                    
-                    # Middle section with job details
-                    with ui.column().classes('flex-grow px-4'):
-                        with ui.row().classes('items-center gap-2'):
-                            ui.label(ad['job_title']).classes('text-lg font-bold')
-                            with ui.element("div"):
-                                ui.tooltip('Verified Partner')
-                                ui.icon('verified').classes('text-blue-500 text-sm')
-                                ui.label('Verified').classes('text-blue-500 text-sm')
+                with ui.card().classes(
+                    'w-full my-2 px-5 py-3 shadow-md rounded-lg border-l-4 border-orange-400 hover:bg-gray-50 transition-colors duration-200 cursor-pointer'
+                ):
+                    with ui.row().classes('items-center w-full'):
+                        # Company Logo
+                        ui.image(ad['image']).classes(
+                            'w-12 h-12 rounded-full border border-gray-300 object-contain flex-shrink-0'
+                        )
                         
-                        # Tightly packed company, location, and date
-                        with ui.row().classes('items-center text-sm text-gray-600 space-x-1'):
+                        # Middle section with job details
+                        with ui.column().classes('flex-grow px-4'):
+                            with ui.row().classes('items-center gap-2'):
+                                ui.label(ad['job_title']).classes('text-lg font-bold')
+                                with ui.row().classes('gap-0 p-0 m-0'):
+                                    ui.tooltip('Verified Partner')
+                                    ui.icon('verified').classes('text-blue-500 text-sm')
+                                    ui.label('Verified').classes('text-blue-500 text-sm')
                             
-                            # ui.label(f'• {ad["location"]}')
-                            # ui.label(f'• {ad["type"]}')
-                            ui.label(f'• {ad["created_at"]}').classes('text-xs text-gray-500')
-                        
-                        ui.label(ad['job_description']).classes('text-sm text-gray-700 mt-1')
+                            # Company, location, and date
+                            with ui.row().classes('items-center text-sm text-gray-600 space-x-1'):
+                                ui.label(f'• {ad["created_at"]}').classes('text-xs text-gray-500')
+                            
+                            ui.label(ad['job_description']).classes('text-sm text-gray-700 mt-1')
 
-                        # Skills list
-                        with ui.row().classes('mt-2 flex-wrap gap-1'):
-                            for skill in ad['skills']:
-                                ui.badge(skill).classes('bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded-full')
-                        
-                #     # View Details button to the right, with bookmark icon
-                #     with ui.column().classes('flex-shrink-0 items-center gap-2'):
-                #         ui.icon('bookmark_border').classes('text-gray-500 text-xl cursor-pointer')
-                #         # ui.button('View', on_click=lambda id=ad['_id']: view_details(id)).classes('bg-orange-500 hover:bg-orange-600 text-white font-bold')
-                # def confirm_delete(job_id):
-                #     """Open a confirmation dialog before deleting a job."""
-                #     with ui.dialog() as dialog, ui.card().classes('p-6'):
-                #         ui.label('Are you sure you want to delete this job?').classes('text-lg font-bold mb-4')
+                            # Skills list
+                            with ui.row().classes('mt-2 flex-wrap gap-1'):
+                                for skill in ad['skills']:
+                                    ui.badge(skill).classes(
+                                        'bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded-full'
+                                    )
 
-                #         with ui.row().classes('gap-4 justify-end'):
-                #             ui.button('Cancel', on_click=dialog.close).props('color=grey')
-                #             ui.button('Yes, Delete', on_click=lambda: delete_job(job_id, dialog)).props('color=negative')
+                        def delete_job(job_id): 
+                            response = requests.delete(f"{base_url}/delete_job/{job_id}") 
+                            if response.status_code == 200: 
+                                ui.notify('Job advertisement deleted.', type='positive') 
+                                ui.navigate.reload()
 
-
-                # def delete_job(job_id, dialog):
-                #     """Perform delete request and refresh UI after deletion."""
-                #     try:
-                #         response = requests.delete(f"{base_url}/delete_job/{job_id}")
-                #         if response.status_code == 200:
-                #             ui.notify('Job advertisement deleted successfully.', type='positive')
-                #             dialog.close()
-                #             # Refresh vendor and homepage listings
-                #             vendor_dashboard_page()
-                #         else:
-                #             ui.notify(f'Failed to delete job: {response.text}', type='negative')
-                #     except Exception as e:
-                #         ui.notify(f'Error: {e}', type='negative')
-
-                def delete_job(job_id):
-                    response = requests.delete(f"{base_url}/delete_job/{job_id}")
-                    if response.status_code == 200:
-                        ui.notify('Job advertisement deleted.', type='positive')
-                        ui.navigate.reload()
-
-                # Edit and Delete buttons
-                with ui.row().classes('w-full mt-1 justify-end gap-2'):
-                    ui.button('View', on_click=lambda id=ad['_id']: view_details(id)).classes('bg-blue-500 hover:bg-blue-600 text-white font-bold')
-                    ui.button('Edit', on_click=lambda: ui.navigate.to('/edit_event/{event_id}')).classes('bg-blue-500 hover:bg-blue-600 text-white font-bold')
-                    ui.button('Delete', color="red",on_click=lambda id=ad['_id']: delete_job(id)).classes('bg-red-500 hover:bg-red-600 text-white font-bold')
-                    
+                        # Buttons section aligned to the right
+                        with ui.row().classes('justify-end items-center gap-2'):
+                            ui.button('View', on_click=lambda id=ad['_id']: view_details(id)).props('no-caps flat').classes(
+                                'bg-blue-200 hover:bg-blue-300  font-bold px-3 py-1 rounded'
+                            )
+                            ui.button('Edit', on_click=lambda: ui.navigate.to(f'/edit_event/{ad["_id"]}')).props('no-caps flat').classes(
+                                'bg-blue-200 hover:bg-blue-300 font-bold px-3 py-1 rounded'
+                            )
+                            ui.button('Delete', on_click=lambda id=ad['_id']: delete_job(id)).props('no-caps flat').classes(
+                                'bg-red-200 hover:bg-red-300 text-red font-bold px-3 py-1 rounded'
+                            )
