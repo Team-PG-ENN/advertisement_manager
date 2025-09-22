@@ -8,10 +8,50 @@ def show_vendor_signup_page():
 ):
     # --- Left Side (Image/Welcome section) ---
         with ui.element("div").classes(
-            "relative bg-[url('/assets/signup.png')] bg-cover bg-center h-[40%] md:h-full w-full md:w-1/2 m-0 p-0 flex items-center justify-center"
+            "relative bg-[url('/assets/signupimage.png')] bg-cover bg-center h-[40%] md:h-full w-full md:w-1/2 m-0 p-0 flex items-center justify-center"
         ):
             ui.element("div").classes("absolute inset-0 bg-black/40")
-        
+
+            # google fonts
+            ui.add_head_html('''
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@100&display=swap" rel="stylesheet">
+            <style>
+                    .font-poppins{font-family:'Poppins', sans-serif;}
+                    .font-roboto {font-family; 'Roboto', sans-serif;}
+                    .font-lobster {font-family: 'Lobster', cursive;}
+                    .font {font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif}
+            </style>              
+            ''')
+
+             # Container for typewriter text
+            ui.add_head_html("""
+                                <style>
+                                @keyframes typing-loop {
+                                0% { width: 0; }
+                                40% { width: 100%; }
+                                90% { width: 100%; }
+                                100% { width: 0; }
+                                }
+
+                                .typewriter {
+                                display: inline-block;
+                                overflow: hidden;
+                                white-space: nowrap;
+                                width: 0;
+                                animation: typing-loop 7s steps(12, end) infinite;
+                                }
+                                </style>
+                """)
+
+            with ui.element("div").classes(
+                "relative z-10 flex flex-col items-center justify-center font-lobster text-primary"
+            ):
+                ui.label("Welcome to SkillBridge").classes(
+                    "text-3xl md:text-4xl font-bold text-center typewriter"
+                )
+
                 # .on_click(lambda: ui.run_javascript("window.location.href = '/signin'"))
 
         # --- Right Side (Form section) ---
