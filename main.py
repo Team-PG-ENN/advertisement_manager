@@ -5,6 +5,8 @@ from pages.add_event import show_add_event_page
 from pages.edit_event import show_edit_event_page
 from pages.view_event import show_view_event_page
 from pages.vendor_page import vendor_dashboard_page
+from pages.vendor_signup import show_vendor_signup_page
+from pages.vendor_signin import show_vendor_signin_page
 
 
 ui.add_head_html('''
@@ -48,6 +50,26 @@ ui.add_head_html('''
     </style>
 ''')
 
+# animation
+ui.add_head_html("""
+<style>
+@keyframes typing-loop {
+  0% { width: 0; }
+  40% { width: 100%; }
+  90% { width: 100%; }
+  100% { width: 0; }
+}
+
+.typewriter {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  animation: typing-loop 7s steps(12, end) infinite;
+}
+</style>
+""")
+
 
 @ui.page("/")
 def home_page():
@@ -78,8 +100,13 @@ def edit_event_page(job_id: int):
 def vendor_page():
     vendor_dashboard_page()
 
-# added a main.py file to amdhgwjhue hvjxbabgkjhkhahxkkj
-# bjxbajibghb
+@ui.page("/vendor_signup")
+def vendor_signup():
+    show_vendor_signup_page()
+
+@ui.page("/vendor_signin")
+def vendor_signin():
+    show_vendor_signin_page()
 
 
 ui.run()
