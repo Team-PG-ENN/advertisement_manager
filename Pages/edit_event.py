@@ -14,7 +14,8 @@ def show_edit_event_page(job_id):
     try:
         response = requests.get(f"{base_url}/find_job/{job_id}")
         if response.status_code == 200:
-            job_ad = response.json().get("advert", {})
+            json_data =  response.json()
+            job_ad = json_data["advert"]
         else:
             job_ad = {}
     except Exception as e:

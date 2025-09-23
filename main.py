@@ -92,7 +92,7 @@ def view_event_page(id=""):
     show_view_event_page(id)
 
 @ui.page("/edit_event/{job_id}")
-def edit_event_page(job_id: int):
+def edit_event_page(job_id):
     show_header()
     show_edit_event_page(job_id)
 
