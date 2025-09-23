@@ -50,14 +50,14 @@ def show_add_event_page():
             # --- Submit Button ---
             def submit_job():
                 payload = {
-                    "job_tittle": title.value,
+                    "job_title": title.value,
                     "job_description": description.value,
-                    "created_ads": location.value, #here was changed to category 
+                    "created_at": location.value, #here was changed to category 
                     # "": job_type.value,
-                    "Salaries": salary.value,
+                    "salaries": salary.value,
                     "category": company.value,
                     "image": logo.value,
-                    "Skills": [s.strip() for s in skills.value.split(",")] if skills.value else []
+                    "skills": [s.strip() for s in skills.value.split(",")] if skills.value else []
                 }
 
                 try:
