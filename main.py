@@ -1,5 +1,5 @@
 from nicegui import ui,app
-from components.header import show_header
+from components.header2 import show_header
 from pages.home import show_home_page
 from pages.add_event import show_add_event_page
 from pages.edit_event import show_edit_event_page
