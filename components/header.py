@@ -2,22 +2,19 @@ from nicegui import ui
 
 def show_header():
     ui.query('.nicegui.contents').classes('m-0 p-0 gap-0')
-    with ui.header().classes('items-center justify-between'):
+    with ui.header().classes('items-center justify-between bg-white'):
         with ui.row().classes('items-center'):
-            ui.image(source="/assets/logo.png").classes('w-8 h-8')
-            ui.label("Skildge").classes("no-underline text-black font-lobster")
-        
-   
-        
-    with ui.row():
-            ui.link("Home").classes("no-underline")
-            ui.link("Jobs").classes("no-underline")
-            ui.link("Resources").classes("no-underline")
-            ui.link("Partners").classes("no-underline")
-    with ui.row():
-            ui.button("Login").props("no-caps flat").classes("rounded text-lg")
-            ui.button("Sign Up").props("no-caps").classes("rounded text-lg")
-            ui.button("Post a Job").props("no-caps flat").classes("bg-orange-400 text-white text-lg")
+            ui.image(source="/assets/loggo.png").classes('w-14 h-18')
+            # ui.label("Skillbridge").classes("no-underline text-black font-lobster")      
+        with ui.row():
+                # ui.link("Home").classes("no-underline font-bold")
+                ui.link("Jobs").classes("no-underline font-bold text-1")
+                ui.link("Resources").classes("no-underline font-bold text-2")
+                ui.link("Partners").classes("no-underline font-bold text-1.5xl")
+        with ui.row():
+                ui.button("Login").props("no-caps flat").classes("rounded text-1 bg-white text-black font-bold rounded-full px-3 py-1 transition-transform transform hover:scale-105'") 
+                ui.button("Sign Up").props("no-caps").classes("rounded text-1 bg-blue text-white font-bold rounded-full px-37 py-1 transition-transform transform hover:scale-105'")
+                ui.button("Post a Job").props("no-caps flat").classes("bg-orange-400 text-white text-1 bg-orange text-white font-bold rounded-full px-3 py-1 transition-transform transform hover:scale-105'")
 
 
 
