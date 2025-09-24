@@ -14,49 +14,50 @@ def show_edit_event_page(job_id):
     try:
         response = requests.get(f"{base_url}/find_job/{job_id}")
         if response.status_code == 200:
-            json_data =  response.json()
-            job_ad = json_data["advert"]
+            json_data = response.json()
+            job_ad = json_data.get("advert", {})
         else:
             job_ad = {}
     except Exception as e:
         job_ad = {}
         ui.notify(f"Error fetching job: {e}", type='negative')
 
-    # Header
-    with ui.header().classes('items-center justify-between bg-white px-4 py-4 shadow'):
-        with ui.row().classes('items-center gap-2'):
-            ui.button(icon='home', on_click=lambda: ui.navigate.to('/')).props('flat').classes('text-blue-600')
-        ui.label('Edit Job Advertisement').classes('text-xl font-bold').style('color:#1976D2')
-
+    # If job not found
     if not job_ad:
         with ui.column().classes('w-full h-screen items-center justify-center'):
             ui.label('Job Not Found').classes('text-3xl font-bold text-red-600')
             ui.button('Go to Homepage', on_click=lambda: ui.navigate.to('/')).classes('mt-6')
         return
 
-    # Main containercxv
-    with ui.column().classes('w-full min-h-screen items-center bg-gray-100 p-4 md:p-8 lg:p-12'):
+    # Main container
+    ui.query('.nicegui-content').classes('p-0 m-0 gap-0')
+    with ui.column().classes(
+        'w-full min-h-screen items-center bg-[url("/assets/signupimage.png")] '
+        'md:p-8 lg:p-12 bg-cover bg-center'
+    ):
+        ui.element("div").classes("absolute inset-0 bg-black/40")
 
         with ui.card().classes('w-full max-w-4xl p-6 shadow-xl rounded-lg bg-white'):
+            ui.label('Edit Job Advertisement').classes('text-xl text-black font-bold mb-4')
 
             # --- Pre-filled Input Fields ---
-            title = ui.input(label='Job Title', value=job_ad.get("job_title", "")) \
-                .classes('w-full mb-4')
+            title = ui.input(label='Job Title', value=job_ad.get("job_title", "")).classes('w-full mb-4')
 
-            description = ui.textarea(label='Job Description', value=job_ad.get("job_description", "")) \
-                .classes('w-full mb-4')
+            description = ui.textarea(
+                label='Job Description',
+                value=job_ad.get("job_description", "")
+            ).classes('w-full mb-4 outlined')
 
-            location = ui.input(label='Location / Category', value=job_ad.get("category", "")) \
-                .classes('w-full mb-4')
+            location = ui.input(
+                label='Location / Category',
+                value=job_ad.get("category", "")
+            ).classes('w-full mb-4')
 
-            salary = ui.input(label='Salary', value=job_ad.get("salaries", "")) \
-                .classes('w-full mb-4')
+            salary = ui.input(label='Salary', value=job_ad.get("salaries", "")).classes('w-full mb-4')
 
-            company = ui.input(label='Company Name', value=job_ad.get("company", "")) \
-                .classes('w-full mb-4')
+            company = ui.input(label='Company Name', value=job_ad.get("company", "")).classes('w-full mb-4')
 
-            logo = ui.input(label='Company Logo URL', value=job_ad.get("image", "")) \
-                .classes('w-full mb-4')
+            logo = ui.input(label='Company Logo URL', value=job_ad.get("image", "")).classes('w-full mb-4')
 
             skills = ui.input(
                 label='Skills (comma-separated)',
@@ -69,25 +70,23 @@ def show_edit_event_page(job_id):
                     "job_title": title.value,
                     "job_description": description.value,
                     "salaries": salary.value,
-                    "category": company.value,
-                    # "company": company.value,
+                    "category": location.value,
+                    "company": company.value,
                     "image": logo.value,
-                    "created_at": location.value,
                     "skills": [s.strip() for s in skills.value.split(",")] if skills.value else []
                 }
 
                 try:
-
-                    # response = requests.put(f"{base_url}/update_job/{job_id}", json=payload)
-                    if response.status_code == 200:
+                    update_response = requests.put(f"{base_url}/update_job/{job_id}", json=payload)
+                    if update_response.status_code == 200:
                         ui.notify('Job successfully updated!', type='positive')
-                        ui.navigate.to('/vendor')   # <-- fix redirect path here
+                        ui.navigate.to('/vendor')
                     else:
-                        ui.notify(f"Error: {response.text}", type='negative')
+                        ui.notify(f"Error: {update_response.text}", type='negative')
                 except Exception as e:
                     ui.notify(f"Failed to connect: {e}", type='negative')
 
-            ui.button('Update Job', on_click=submit_update).classes(
-                'mt-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg'
-            )
- 
+            ui.button(
+                'Update Job',
+                on_click=submit_update
+            ).classes('mt-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg')
