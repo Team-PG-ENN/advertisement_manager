@@ -61,7 +61,7 @@ def show_home_page():
                         ui.button('All jobs', icon='work').classes(
                             'rounded-full text-white px-4 md:px-6 py-2 text-sm md:text-base'
                         )
-                        ui.button('Recent Jobs', icon='business_center').classes(
+                        ui.button('Recent Jobs', icon='business_center').props('flat').classes(
                             'rounded-full  text-white px-4 md:px-6 py-2 text-sm md:text-base'
                         )
                         ui.button('Companies', icon='domain').classes(
