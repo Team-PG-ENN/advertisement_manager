@@ -1,6 +1,28 @@
-from nicegui import ui
+from nicegui import ui, run, app
+import requests
+from utils.api import base_url
 
+_login_btn: ui.button = None
+
+def _run_login(data):
+    return requests.post(f"{base_url}/vendors/login",data=data)
+    
+async def _login(data):
+    # print(data)
+    _login_btn.props(add="disable loading")
+    response = await run.cpu_bound(_run_login, data)
+    print(response.status_code, response.content)
+    _login_btn.props(remove="disable loading")
+    if response.status_code == 200:
+        json_data = response.json()
+        # app.storage.user["access_token"] = json_data["access_token"]
+        return ui.navigate.back()
+
+
+
+@ui.page("/vendor/signin")
 def show_vendor_signin_page():
+    global _login_btn
     ui.query('.nicegui-content').classes('m-0 p-0 gap-0')
     with ui.element("div").classes(
     "w-full h-screen flex flex-col md:flex-row m-0 p-0 border rounded-2xl overflow-hidden"
@@ -25,12 +47,12 @@ def show_vendor_signin_page():
             # Form container
             with ui.element("div").classes("w-full flex flex-col px-1"):
                 # Email
-                ui.input(placeholder="Email") \
+                email = ui.input(placeholder="Email") \
                     .props("flat dense borderless") \
                     .classes("rounded-sm w-full text-base bg-white my-4 px-2")
 
                 # Password
-                ui.input(placeholder="Password", password=True, password_toggle_button=True) \
+                password = ui.input(placeholder="Password", password=True, password_toggle_button=True) \
                     .props("flat dense borderless") \
                     .classes("rounded-sm w-full text-base bg-white my-4 px-2")
 
@@ -38,7 +60,8 @@ def show_vendor_signin_page():
                     ui.link("Forget password?").classes("no-underline text-sm text-primary")
 
                 # Buttons
-                ui.button("Login as Company") \
+                _login_btn = ui.button("Login as Company", on_click=lambda:_login(data={"email": email.value, "password": password.value, "role": "company"
+                })) \
                     .props("no-caps flat") \
                     .classes("text-white text-base bg-primary mt-5 text-center w-full")
 

@@ -1,7 +1,28 @@
-from nicegui import ui
+from nicegui import ui, run, app
 import requests
 from utils.api import base_url
+
+
+_add_event_btn:ui.button = None
+
+def _run_add_event(data, files, token):
+    return requests.post(
+        f"{base_url}/adverts", 
+        data=data,
+          files=files,
+          headers={"Authorization": f"Bearer {token}"},
+          )
+_event_image = None
+
+def _handle_image_upload(event):
+  global _event_image
+  _event_image = event.content
    
+  async def _add_event(data, files):
+    _add_event_btn.props(add="disable loading") 
+    response = await run.cpu_bound(_run_add_event, data, files, app.storage.user.get("access_token"))
+    print(response.status_code, response.content)
+    _add_event_btn.props(remove="disable loading")
 
 
 def show_add_event_page():
