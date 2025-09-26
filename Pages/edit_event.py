@@ -48,16 +48,16 @@ def show_edit_event_page(job_id):
                 value=job_ad.get("job_description", "")
             ).classes('w-full mb-4 outlined')
 
-            location = ui.input(
-                label='Location / Category',
-                value=job_ad.get("category", "")
-            ).classes('w-full mb-4')
+            # location = ui.input(
+            #     label='Location / Category',
+            #     value=job_ad.get("category", "")
+            # ).classes('w-full mb-4')
 
             salary = ui.input(label='Salary', value=job_ad.get("salaries", "")).classes('w-full mb-4')
 
-            company = ui.input(label='Company Name', value=job_ad.get("company", "")).classes('w-full mb-4')
+            # company = ui.input(label='Company Name', value=job_ad.get("company", "")).classes('w-full mb-4')
 
-            logo = ui.input(label='Company Logo URL', value=job_ad.get("image", "")).classes('w-full mb-4')
+            # logo = ui.input(label='Company Logo URL', value=job_ad.get("image", "")).classes('w-full mb-4')
 
             skills = ui.input(
                 label='Skills (comma-separated)',

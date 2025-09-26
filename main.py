@@ -109,4 +109,4 @@ def vendor_signin():
     show_vendor_signin_page()
 
 
-ui.run()
+ui.run(storage_secret="nadializzy")
