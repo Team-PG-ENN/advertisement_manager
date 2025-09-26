@@ -70,9 +70,9 @@ def show_edit_event_page(job_id):
                     "job_title": title.value,
                     "job_description": description.value,
                     "salaries": salary.value,
-                    "category": location.value,
-                    "company": company.value,
-                    "image": logo.value,
+                    # "category": location.value,
+                    # "company": company.value,
+                    # "image": logo.value,
                     "skills": [s.strip() for s in skills.value.split(",")] if skills.value else []
                 }
 

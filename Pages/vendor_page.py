@@ -140,9 +140,9 @@ def vendor_dashboard_page():
                                     ui.icon('verified').classes('text-blue-500 text-sm')
                                     ui.label('Verified').classes('text-blue-500 text-sm')
                             
-                            # Company, location, and date
-                            with ui.row().classes('items-center text-sm text-gray-600 space-x-1'):
-                                ui.label(f'• {ad["created_at"]}').classes('text-xs text-gray-500')
+                            # # Company, location, and date
+                            # with ui.row().classes('items-center text-sm text-gray-600 space-x-1'):
+                            #     ui.label(f'• {ad["created_at"]}').classes('text-xs text-gray-500')
                             
                             ui.label(ad['job_description']).classes('text-sm text-gray-700 mt-1')
 
