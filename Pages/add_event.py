@@ -5,11 +5,10 @@ from utils.api import base_url
 
 _add_event_btn:ui.button = None
 
-def _run_add_event(data, files, token):
+def _run_add_event(data, token):
     return requests.post(
-        f"{base_url}/adverts", 
+        f"{base_url}/add_job", 
         data=data,
-          files=files,
           headers={"Authorization": f"Bearer {token}"},
           )
 _event_image = None
@@ -99,16 +98,16 @@ def show_add_event_page():
 
             # --- Submit Button ---
             with ui.element("div").classes("w-full flex items-center justify-center py-4"):
-                def submit_job():
+                def add_job():
                     payload = {
                         "job_title": job_title.value,
                         "job_description": job_description.value,
                         "salaries": job_salary.value,
                         "category": job_category.value,
-                        "job_type": job_type.value,
+                        # "job_type": job_type.value,
                         "location": job_location.value,
-                        "company": company_name.value,
-                        "image": company_logo.value,
+                        # "company": company_name.value,
+                        # "image": company_logo.value,
                         "skills": [s.strip() for s in job_skills.value.split(",")] if job_skills.value else [],
                     }
 
@@ -124,7 +123,7 @@ def show_add_event_page():
 
                 ui.button(
                     "Add New Job",
-                    on_click=submit_job
+                    on_click=add_job
                 ).classes("mt-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 ml-auto")
 
 
